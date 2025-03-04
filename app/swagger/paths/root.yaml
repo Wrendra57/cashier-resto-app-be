@@ -1,0 +1,12 @@
+paths:
+  /:
+    get:
+      summary: This is the root endpoint server
+      description: This is the root endpoint server
+      responses:
+        '200':
+          description: Welcome to the root endpoint
+          content:
+            application/json:
+                schema:
+                    $ref: '#/components/schemas/JsendResponse'

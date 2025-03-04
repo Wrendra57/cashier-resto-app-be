@@ -20,12 +20,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   PointClaims.init({
-    id: DataTypes.UUID,
+    id: {type:DataTypes.UUID, primaryKey:true},
     tenant_id: DataTypes.UUID,
     membership_id: DataTypes.UUID,
     point_used: DataTypes.INTEGER,
     reward: DataTypes.STRING,
-    claimed_at: DataTypes.DATE
+    claimed_at: DataTypes.DATE,
+    created_at: DataTypes.DATE,
+    updated_at: DataTypes.DATE,
+    deleted_at: {type:DataTypes.DATE, allowNull:false},
   }, {
     sequelize,
     modelName: 'PointClaims',

@@ -1,0 +1,13 @@
+components:
+  schemas:
+    JsendResponse:
+      type: object
+      required:
+        - data
+      properties:
+        status:
+          type: string
+          description: Status of the request
+        message:
+          type: string
+          description: Message of the request
