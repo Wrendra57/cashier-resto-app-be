@@ -1,13 +1,22 @@
 const userRepository = require("../repositories/userRepository")
+const createdLogger = require("../utils/logger")
+const logger = createdLogger(__filename)
+const template = require('../utils/template/templateResponeApi')
 
-const createUser = async ()=>{
+const createUser = async (params)=>{
     try{
-        // let user = await userRepository.insert({});
-        console.log("user service create user");
-        return "user";
+        const user = await userRepository.insert(params);
+        logger.info({
+            message: "User created successfully",
+            userId: user.id,
+        });
+        return template.created(user, "User created successfully");
     } catch (error) {
-        console.error(`Request ID: - User Service Create User error:`, error.message);
-        throw new Error("Database query error: " + error.message);
+        logger.error({
+            message: 'Error creating user',
+            error: error.message,
+        });
+        return template.internalServerError();
     }
 }
 

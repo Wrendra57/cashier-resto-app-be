@@ -1,9 +1,14 @@
 const userService=require("../../../services/userService")
-
+const createLogger = require("../../../utils/logger")
+const logger = createLogger(__filename)
+const template = require('../../../utils/template/templateResponeApi')
 const registerUser = async (req, res) => {
-    const user = "dwdw"
-    console.log(user)
-    return res.status(200).json({Code: 200, message: "User registered", data: user});
+        const registeredUser = await userService.createUser({name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            phone_number: req.body.phone_number})
+
+        return res.status(registeredUser.code).json(template.toTemplateResponseApi(registeredUser));
 }
 
 module.exports= {registerUser}
