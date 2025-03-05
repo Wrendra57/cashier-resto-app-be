@@ -34,3 +34,54 @@
 {"error":"Database query error: null value in column \"id\" of relation \"users\" violates not-null constraint","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-04T20:12:12.645Z"}
 {"error":"null value in column \"id\" of relation \"users\" violates not-null constraint","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"wadas@gmail.com","name":"awdasd","password":"12dwasd3","phone_number":"08213245252"},"timestamp":"2025-03-04T20:14:28.245Z"}
 {"error":"Database query error: null value in column \"id\" of relation \"users\" violates not-null constraint","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-04T20:14:28.246Z"}
+{"error":"Validation error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"wadas@gmail.com","name":"awdasd","password":"12dwasd3","phone_number":"08213245252"},"timestamp":"2025-03-05T06:11:41.427Z"}
+{"error":"Database query error: Validation error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:11:41.428Z"}
+{"error":"Validation error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"wadaws@gmail.com","name":"awdasd","password":"12dwasd3","phone_number":"08213245252"},"timestamp":"2025-03-05T06:12:13.483Z"}
+{"error":"Database query error: Validation error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:12:13.485Z"}
+{"error":"Validation error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"wadaws@gmail.com","name":"awdasd","password":"12dwasd3","phone_number":"08213245252"},"timestamp":"2025-03-05T06:14:53.638Z"}
+{"error":"Database query error: Validation error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:14:53.641Z"}
+{"error":"Validation error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"wadaws@gmail.com","name":"awdasd","password":"12dwasd3","phone_number":"082132452522"},"timestamp":"2025-03-05T06:19:04.851Z"}
+{"error":"Database query error: Validation error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:19:04.856Z"}
+{"error":"UserRole.insert is not a function","file":"userRoleRepository.js","level":"error","message":"Database query error","params":{"role":"user","user_id":"04150ae1-29e2-4fd4-9207-0bf08dbe7d5d"},"timestamp":"2025-03-05T06:19:16.184Z"}
+{"error":"Database query error: UserRole.insert is not a function","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:19:16.185Z"}
+{"error":"Validation error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"wadawss@gmail.com","name":"awdasd","password":"12dwasd3","phone_number":"0821324525222"},"timestamp":"2025-03-05T06:19:31.177Z"}
+{"error":"Database query error: Validation error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:19:31.178Z"}
+{"error":"UserRole.insert is not a function","file":"userRoleRepository.js","level":"error","message":"Database query error","params":{"role":"user","user_id":"b0f2db86-88b9-43a7-bc65-0a0e2be8a26b"},"timestamp":"2025-03-05T06:19:39.209Z"}
+{"error":"Database query error: UserRole.insert is not a function","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:19:39.210Z"}
+{"error":"Validation error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"wadawsss@gmail.com","name":"awdasd","password":"12dwasd3","phone_number":"0821322525222"},"timestamp":"2025-03-05T06:20:46.127Z"}
+{"error":"Database query error: Validation error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:20:46.129Z"}
+{"error":"UserRole.insert is not a function","file":"userRoleRepository.js","level":"error","message":"Database query error","params":{"role":"user","user_id":"306f8781-d390-485e-a38d-36a7ade0db98"},"timestamp":"2025-03-05T06:20:57.599Z"}
+{"error":"Database query error: UserRole.insert is not a function","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:20:57.600Z"}
+{"error":"Validation error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"wadawsss@sgmail.com","name":"awdasd","password":"12dwasd3","phone_number":"0821352525222"},"timestamp":"2025-03-05T06:23:11.427Z"}
+{"error":"Database query error: Validation error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:23:11.428Z"}
+{"error":"Validation error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"wadawsss@sgmail.com","name":"awdasd","password":"12dwasd3","phone_number":"0821352525222"},"timestamp":"2025-03-05T06:23:41.480Z"}
+{"error":"Database query error: Validation error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:23:41.481Z"}
+{"error":"UserRole.insert is not a function","file":"userRoleRepository.js","level":"error","message":"Database query error","params":{"role":"user","user_id":"fe62ec97-d746-4316-ae86-6919d15fb8be"},"timestamp":"2025-03-05T06:24:11.620Z"}
+{"error":"Database query error: UserRole.insert is not a function","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:24:11.621Z"}
+{"error":"Validation error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"wadawsssws@sgmail.com","name":"awdasd","password":"12dwasd3","phone_number":"08213528525222"},"timestamp":"2025-03-05T06:26:04.423Z"}
+{"error":"Database query error: Validation error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:26:04.424Z"}
+{"error":"UserRole.insert is not a function","file":"userRoleRepository.js","level":"error","message":"Database query error","params":{"role":"user","user_id":"95124a7b-a8cc-4672-807a-3bad9bb2ead5"},"timestamp":"2025-03-05T06:26:22.430Z"}
+{"error":"Database query error: UserRole.insert is not a function","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:26:22.431Z"}
+{"error":"Validation error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"wadawssssw3s@sgmail.com","name":"awdasd","password":"12dwasd3","phone_number":"08261352525222"},"timestamp":"2025-03-05T06:26:29.143Z"}
+{"error":"Database query error: Validation error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:26:29.143Z"}
+{"error":"UserRole.insert is not a function","file":"userRoleRepository.js","level":"error","message":"Database query error","params":{"role":"user","user_id":"68398dfb-1258-4ba4-ac8f-da5093a3b491"},"timestamp":"2025-03-05T06:26:47.236Z"}
+{"error":"Database query error: UserRole.insert is not a function","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:26:47.236Z"}
+{"error":"Converting circular structure to JSON\n    --> starting at object with constructor 'Sequelize'\n    |     property 'dialect' -> object with constructor 'PostgresDialect'\n    --- property 'sequelize' closes the circle","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:42:18.414Z"}
+{"error":"Validation error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"wada4sswes@sgmail.com","name":"awdasd","password":"12dwasd3","phone_number":"08263525222"},"timestamp":"2025-03-05T06:46:41.022Z"}
+{"error":"Database query error: Validation error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:46:41.027Z"}
+{"error":"Validation error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"awada4sswes@sgmail.com","name":"awdasd","password":"12dwasd3","phone_number":"081263525222"},"timestamp":"2025-03-05T06:46:55.164Z"}
+{"error":"Database query error: Validation error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-05T06:46:55.168Z"}
+{"email":"aqwada4sswes@sgmail.com","file":"userService.js","level":"error","message":"User already exists","timestamp":"2025-03-05T07:04:50.263Z"}
+{"email":"aqwada4sswes@sgmail.com","file":"userService.js","level":"error","message":"User already exists","timestamp":"2025-03-05T07:06:10.157Z"}
+{"email":"aqwada4sswes@sgmail.com","file":"userService.js","level":"error","message":"User already exists","timestamp":"2025-03-05T07:06:38.658Z"}
+{"email":"aqwada4sswes@sgmail.com","file":"userService.js","level":"error","message":"User already exists","timestamp":"2025-03-05T07:07:48.444Z"}
+{"email":"aqwada4sswes@sgmail.com","file":"userService.js","level":"error","message":"User already exists","timestamp":"2025-03-05T07:08:25.812Z"}
+{"email":"aqwada4sswes@sgmail.com","file":"userService.js","level":"error","message":"User already exists","timestamp":"2025-03-05T07:09:03.978Z"}
+{"email":"aqwada4sswes@sgmail.com","file":"userService.js","level":"error","message":"User already exists","timestamp":"2025-03-05T07:09:16.193Z"}
+{"email":"aqwada4sswes@sgmail.com","file":"userService.js","level":"error","message":"User already exists","timestamp":"2025-03-05T07:09:39.294Z"}
+{"email":"aqwada4sswes@sgmail.com","file":"userService.js","level":"error","message":"User already exists","timestamp":"2025-03-05T07:10:20.615Z"}
+{"email":"aqwada4sswes@sgmail.com","file":"userService.js","level":"error","message":"User already exists","timestamp":"2025-03-05T07:10:41.893Z"}
+{"email":"aqwada4sswes@sgmail.com","file":"userService.js","level":"error","message":"User already exists","timestamp":"2025-03-05T07:12:28.658Z"}
+{"email":"aqwada4sswes@sgmail.com","file":"userService.js","level":"error","message":"User already exists","timestamp":"2025-03-05T07:17:32.054Z"}
+{"file":"userService.js","level":"error","message":"Phone number already exists","phone_number":"0851263525222","timestamp":"2025-03-05T07:17:49.652Z"}
+{"error":"database \"restaurant_app_production\" does not exist","file":"userController.js","level":"error","message":"Error registering user","timestamp":"2025-03-05T07:32:37.951Z"}

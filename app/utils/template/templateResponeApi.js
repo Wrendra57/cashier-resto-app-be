@@ -30,4 +30,12 @@ const created = ( data, message)=>{
         data: data
     }
 }
-module.exports = {toTemplateResponseApi,success,created,internalServerError}
+const badRequest = ( message)=>{
+    return {
+        code:400,
+        status: "Error",
+        message: message,
+        data: null
+    }
+}
+module.exports = {toTemplateResponseApi,success,created,internalServerError,badRequest}
