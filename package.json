@@ -12,6 +12,18 @@
     "db:rollback": "./node_modules/.bin/sequelize-cli db:migrate:undo:all",
     "db:seed": "./node_modules/.bin/sequelize-cli db:seed:all"
   },
+  "jest": {
+    "clearMocks": true,
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageProvider": "v8",
+    "verbose": true,
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    },
+    "maxConcurrency": 1,
+    "maxWorkers": 1
+  },
   "dependencies": {
     "axios": "^1.8.1",
     "bcrypt": "^5.1.1",
