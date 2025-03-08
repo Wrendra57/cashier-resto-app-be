@@ -8,7 +8,7 @@ describe('Test group endpoint api/v1/users', () => {
         server = app.listen(done);
     })
     afterAll((done)=>{
-        server.close();
+        server.close(done);
     })
     const baseUrl = '/api/v1/users'
     describe('POST /users/register', () => {
