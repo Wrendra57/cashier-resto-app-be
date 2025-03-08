@@ -22,7 +22,7 @@ const createUser = async (params) => {
                 message: 'Email or phone number already exists',
                 email: user.email,
             });
-            return template.badRequest("User already exists");
+            return template.badRequest("Email or phone number already exists");
         }
 
         const existingUserByPhone = await userRepository.findByPhoneNumber({ phoneNumber: user.phone_number, transaction });
@@ -32,7 +32,7 @@ const createUser = async (params) => {
                 message: 'Email or phone number already exists',
                 phone_number: user.phone_number,
             });
-            return template.badRequest("Phone number already exists");
+            return template.badRequest("Email or phone number already exists");
         }
 
 
@@ -51,7 +51,7 @@ const createUser = async (params) => {
         });
 
         await transaction.commit();
-        return template.created(user.id, "User created successfully");
+        return template.created({id:user.id}, "User created successfully");
     } catch (error) {
         await transaction.rollback();
         logger.error({
@@ -63,5 +63,5 @@ const createUser = async (params) => {
 };
 
 module.exports = {
-    createUser
+     createUser
 }
