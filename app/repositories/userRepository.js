@@ -104,4 +104,41 @@ const findByPhoneNumber  = async ({phoneNumber,transaction=null})=>{
         throw new Error("Database query error: " + error.message);
     }
 }
-module.exports={insert,findByEmail,findByPhoneNumber}
+
+const findByEmailOrPhoneNumber = async ({params,transaction=null})=>{
+    try {
+        const options = {};
+        if (transaction) {
+            options.transaction = transaction;
+            options.lock = transaction.LOCK.UPDATE;
+        }
+        const query = 'SELECT * FROM users WHERE email = :params or phone_number = :params';
+        const user = await sequelize.query(query, {
+            replacements: { params },
+            type: sequelize.QueryTypes.SELECT,
+            ...options
+        });
+
+        if (user.length > 0) {
+            logger.info({
+                message: "User found successfully in the database",
+                userId: user[0].id,
+            });
+            return user[0];
+        } else {
+            logger.warn({
+                message: "User not found in the database",
+                params,
+            });
+            return null;
+        }
+    } catch (error) {
+        logger.error({
+            message: 'Database query error',
+            error: error.message,
+            params
+        });
+        throw new Error("Database query error: " + error.message);
+    }
+}
+module.exports={insert,findByEmail,findByPhoneNumber,findByEmailOrPhoneNumber}

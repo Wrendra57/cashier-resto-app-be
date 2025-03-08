@@ -27,6 +27,48 @@ const insert = async ({params, transaction=null}) => {
   }
 }
 
+const findByUserId = async ({userId, transaction=null}) => {
+    try {
+        const options = {};
+        if (transaction) {
+            options.transaction = transaction;
+            options.lock = transaction.LOCK.UPDATE;
+        }
+        const query = `SELECT 
+                            ur.user_id,
+                            ARRAY_AGG(ur.role) AS roles
+                        FROM user_role ur
+                        WHERE ur.user_id = :userId
+                        GROUP BY ur.user_id
+                        LIMIT 1;`
+        const userRole = await sequelize.query(query, {
+            replacements: { userId },
+            type: sequelize.QueryTypes.SELECT,
+            ...options
+        });
+        if (userRole.length > 0) {
+            logger.info({
+                message: "User Role found successfully in the database",
+                userId: userRole[0].id,
+            });
+            return userRole[0];
+        } else {
+            logger.warn({
+                message: "User Role not found in the database",
+                userId
+            });
+            return null;
+        }
+    } catch (error) {
+        logger.error({
+            message: 'Database query error',
+            error: error.message,
+            userId
+        });
+        throw new Error("Database query error: " + error.message);
+    }
+}
+
 module.exports = {
-    insert
+    insert,findByUserId
 }

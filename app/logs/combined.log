@@ -3145,3 +3145,43 @@
 {"error":"Database query error","file":"userRoleRepository.js","level":"error","message":"Database query error","params":{"role":"admin","userId":"user123"},"timestamp":"2025-03-08T20:18:10.970Z"}
 {"file":"userRoleRepository.js","level":"info","message":"User Role inserted successfully to the database","timestamp":"2025-03-08T20:18:10.983Z","userId":"b0f2db86-88b9-43a7-bc65-0a0e2be8a26b","userRole":{"created_at":"2025-03-08T20:18:10.958Z","deleted_at":null,"id":"b0f2db86-88b9-43a7-bc65-0a0e2be8a26b","role":"admin","updated_at":"2025-03-08T20:18:10.958Z","userId":"user123"}}
 {"error":"Database query error","file":"userController.js","level":"error","message":"Error registering user","timestamp":"2025-03-08T20:18:12.054Z"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741469958457","timestamp":"2025-03-08T21:39:18.458Z","url":"/api/v1/users/login"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741470010210","timestamp":"2025-03-08T21:40:10.210Z","url":"/api/v1/users/login"}
+{"error":"Named parameter \":params\" has no value in the given object.","file":"userRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:40:10.215Z"}
+{"error":"Database query error: Named parameter \":params\" has no value in the given object.","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:40:10.217Z"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741470012224","timestamp":"2025-03-08T21:40:12.224Z","url":"/api/v1/users/login"}
+{"error":"Named parameter \":params\" has no value in the given object.","file":"userRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:40:12.228Z"}
+{"error":"Database query error: Named parameter \":params\" has no value in the given object.","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:40:12.230Z"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741470018590","timestamp":"2025-03-08T21:40:18.590Z","url":"/api/v1/users/login"}
+{"error":"Named parameter \":params\" has no value in the given object.","file":"userRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:40:18.592Z"}
+{"error":"Database query error: Named parameter \":params\" has no value in the given object.","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:40:18.593Z"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741470152860","timestamp":"2025-03-08T21:42:32.860Z","url":"/api/v1/users/login"}
+{"error":"Named parameter \":params\" has no value in the given object.","file":"userRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:42:32.875Z"}
+{"error":"Database query error: Named parameter \":params\" has no value in the given object.","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:42:32.878Z"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741470194376","timestamp":"2025-03-08T21:43:14.377Z","url":"/api/v1/users/login"}
+{"file":"userRepository.js","level":"info","message":"User found successfully in the database","timestamp":"2025-03-08T21:43:14.615Z","userId":"fb728f79-ce38-4857-9595-7abb152603cf"}
+{"error":"Named parameter \":userId\" has no value in the given object.","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:43:14.922Z"}
+{"error":"Database query error: Named parameter \":userId\" has no value in the given object.","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:43:14.924Z"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741470248865","timestamp":"2025-03-08T21:44:08.866Z","url":"/api/v1/users/login"}
+{"file":"userRepository.js","level":"info","message":"User found successfully in the database","timestamp":"2025-03-08T21:44:09.067Z","userId":"fb728f79-ce38-4857-9595-7abb152603cf"}
+{"error":"syntax error at or near \"LIMIT\"","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:44:09.371Z","userId":"fb728f79-ce38-4857-9595-7abb152603cf"}
+{"error":"Database query error: syntax error at or near \"LIMIT\"","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:44:09.372Z"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741470293461","timestamp":"2025-03-08T21:44:53.462Z","url":"/api/v1/users/login"}
+{"file":"userRepository.js","level":"info","message":"User found successfully in the database","timestamp":"2025-03-08T21:44:53.623Z","userId":"fb728f79-ce38-4857-9595-7abb152603cf"}
+{"error":"syntax error at or near \"LIMIT\"","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:44:53.893Z","userId":"fb728f79-ce38-4857-9595-7abb152603cf"}
+{"error":"Database query error: syntax error at or near \"LIMIT\"","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:44:53.894Z"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741470369471","timestamp":"2025-03-08T21:46:09.471Z","url":"/api/v1/users/login"}
+{"file":"userRepository.js","level":"info","message":"User found successfully in the database","timestamp":"2025-03-08T21:46:09.663Z","userId":"fb728f79-ce38-4857-9595-7abb152603cf"}
+{"file":"userRoleRepository.js","level":"info","message":"User Role found successfully in the database","timestamp":"2025-03-08T21:46:09.993Z"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741470472401","timestamp":"2025-03-08T21:47:52.402Z","url":"/api/v1/users/login"}
+{"file":"userRepository.js","level":"info","message":"User found successfully in the database","timestamp":"2025-03-08T21:47:52.568Z","userId":"fb728f79-ce38-4857-9595-7abb152603cf"}
+{"file":"userRoleRepository.js","level":"info","message":"User Role found successfully in the database","timestamp":"2025-03-08T21:47:52.878Z"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741471023676","timestamp":"2025-03-08T21:57:03.677Z","url":"/api/v1/users/login"}
+{"file":"userRepository.js","level":"info","message":"User found successfully in the database","timestamp":"2025-03-08T21:57:03.898Z","userId":"fb728f79-ce38-4857-9595-7abb152603cf"}
+{"file":"userRoleRepository.js","level":"info","message":"User Role found successfully in the database","timestamp":"2025-03-08T21:57:04.183Z"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741471047802","timestamp":"2025-03-08T21:57:27.803Z","url":"/api/v1/users/login"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741471060463","timestamp":"2025-03-08T21:57:40.463Z","url":"/api/v1/users/login"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741471067684","timestamp":"2025-03-08T21:57:47.684Z","url":"/api/v1/users/login"}
+{"file":"requestLogger.js","ip":"::1","level":"http","message":"Incoming request","method":"POST","requestId":"req-1741471073367","timestamp":"2025-03-08T21:57:53.367Z","url":"/api/v1/users/login"}
+{"file":"userRepository.js","level":"info","message":"User found successfully in the database","timestamp":"2025-03-08T21:57:53.539Z","userId":"fb728f79-ce38-4857-9595-7abb152603cf"}
+{"file":"userRoleRepository.js","level":"info","message":"User Role found successfully in the database","timestamp":"2025-03-08T21:57:53.872Z"}

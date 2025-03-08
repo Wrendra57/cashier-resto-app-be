@@ -4,7 +4,8 @@ const swaggerUi = require('swagger-ui-express')
 const swaggerJsdoc = require('swagger-jsdoc')
 const swaggerOptions = require('../app/swagger/swaggerOptions')
 const {validation} = require("../app/middleware/validations");
-const {createUserValidation} = require("../app/middleware/validations/userValidation");
+const {createUserValidation, loginUserValidation} = require("../app/middleware/validations/userValidation");
+const {loginUser} = require("../app/services/userService");
 const swaggerSpec = swaggerJsdoc(swaggerOptions)
 const apiRouter = express.Router();
 
@@ -25,6 +26,7 @@ apiRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 // user management
 apiRouter.post("/api/v1/users", validation(createUserValidation), controllers.api.v1.userController.registerUser);
+apiRouter.post("/api/v1/users/login", validation(loginUserValidation), controllers.api.v1.userController.login);
 
 
 apiRouter.get("/api/v1/errors", () => {

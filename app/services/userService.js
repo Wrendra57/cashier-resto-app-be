@@ -5,6 +5,7 @@ const logger = createdLogger(__filename)
 const template = require('../utils/template/templateResponeApi')
 const sequelize = require('../models').sequelize
 const Bcrypt = require('../utils/converter/bcrypt')
+const jwtToken = require('../utils/converter/jwtToken')
 const createUser = async (params) => {
     const transaction = await sequelize.transaction();
     try {
@@ -62,6 +63,46 @@ const createUser = async (params) => {
     }
 };
 
+const loginUser = async ({emailOrPhoneNumber, password}) =>{
+
+    try {
+        const existingUser = await userRepository.findByEmailOrPhoneNumber({ params: emailOrPhoneNumber });
+        if (!existingUser) {
+            logger.error({
+                message: 'Email or phone number not found',
+            });
+            return template.badRequest("Email or phone number not found");
+        }
+
+        const comparedPassword = await Bcrypt.comparePasswords(password, existingUser.password);
+        if (!comparedPassword) {
+            logger.error({
+                message: 'Password is incorrect',
+            });
+            return template.badRequest("Password is incorrect");
+        }
+
+        const role = await userRoleRepository.findByUserId({userId:existingUser.id})
+        console.log(role)
+        if (!role) {
+            logger.error({
+                message: 'Role not found',
+            });
+            return template.badRequest("Role not found");
+        }
+
+        const token = jwtToken.generateToken({id:existingUser.id,role:role.role, is_verified:existingUser.is_verified})
+
+        return template.success({token}, "Login successfully");
+
+    } catch (e) {
+        logger.error({
+            message: 'Error login user',
+            error: e.message,
+        });
+        return template.internalServerError();
+    }
+}
 module.exports = {
-     createUser
+     createUser,loginUser
 }

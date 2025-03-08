@@ -852,3 +852,17 @@
 {"error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","phoneNumber":"errorPhoneNumber","timestamp":"2025-03-08T20:18:10.258Z"}
 {"error":"Database query error","file":"userRoleRepository.js","level":"error","message":"Database query error","params":{"role":"admin","userId":"user123"},"timestamp":"2025-03-08T20:18:10.970Z"}
 {"error":"Database query error","file":"userController.js","level":"error","message":"Error registering user","timestamp":"2025-03-08T20:18:12.054Z"}
+{"error":"Named parameter \":params\" has no value in the given object.","file":"userRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:40:10.215Z"}
+{"error":"Database query error: Named parameter \":params\" has no value in the given object.","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:40:10.217Z"}
+{"error":"Named parameter \":params\" has no value in the given object.","file":"userRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:40:12.228Z"}
+{"error":"Database query error: Named parameter \":params\" has no value in the given object.","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:40:12.230Z"}
+{"error":"Named parameter \":params\" has no value in the given object.","file":"userRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:40:18.592Z"}
+{"error":"Database query error: Named parameter \":params\" has no value in the given object.","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:40:18.593Z"}
+{"error":"Named parameter \":params\" has no value in the given object.","file":"userRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:42:32.875Z"}
+{"error":"Database query error: Named parameter \":params\" has no value in the given object.","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:42:32.878Z"}
+{"error":"Named parameter \":userId\" has no value in the given object.","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:43:14.922Z"}
+{"error":"Database query error: Named parameter \":userId\" has no value in the given object.","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:43:14.924Z"}
+{"error":"syntax error at or near \"LIMIT\"","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:44:09.371Z","userId":"fb728f79-ce38-4857-9595-7abb152603cf"}
+{"error":"Database query error: syntax error at or near \"LIMIT\"","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:44:09.372Z"}
+{"error":"syntax error at or near \"LIMIT\"","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:44:53.893Z","userId":"fb728f79-ce38-4857-9595-7abb152603cf"}
+{"error":"Database query error: syntax error at or near \"LIMIT\"","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:44:53.894Z"}

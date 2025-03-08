@@ -19,4 +19,19 @@ const registerUser = async (req, res) => {
         return res.status(500).json(template.internalServerError());
     }
 };
-module.exports= {registerUser}
+
+const login = async (req, res) => {
+    try {
+        const { emailOrPhoneNumber, password } = req.body;
+        const user = await userService.loginUser({ emailOrPhoneNumber, password });
+
+        return res.status(user.code).json(template.toTemplateResponseApi(user));
+    } catch (error) {
+        logger.error({
+            message: 'Error logging in user',
+            error: error.message,
+        });
+        return res.status(500).json(template.internalServerError());
+    }
+};
+module.exports= {registerUser,login}

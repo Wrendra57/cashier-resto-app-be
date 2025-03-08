@@ -35,4 +35,16 @@ const createUserValidation = yup.object({
     })
 })
 
-module.exports = {createUserValidation}
+const loginUserValidation = yup.object({
+    body: yup.object({
+        emailOrPhoneNumber: yup
+            .string()
+            .required('Email or phone number is required')
+            .email("Email is not valid"),
+        password: yup
+            .string()
+            .required('Password is required')
+            .min(6, 'Password must be at least 6 characters'),
+    })
+})
+module.exports = {createUserValidation,loginUserValidation}
