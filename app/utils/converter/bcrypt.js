@@ -1,39 +1,32 @@
 const bcrypt = require("bcrypt");
 require("dotenv").config();
-const createLogger = require("../logger");
-const logger = createLogger(__filename);
+const createLogger = require("../../utils/logger")
+const logger = createLogger(__filename)
 
 const encodedPassword = async (password) => {
     try {
-        const encoded = await bcrypt.hash(password, parseInt(process.env.SALT));
-        return encoded;
-    } catch (error) {
+        return await bcrypt.hash(password, parseInt(process.env.SALT));
+    } catch (err) {
+        console.log(err.message);
         logger.error({
-            message: 'Error hashing password',
-            error: error.message,
+            message: 'Database query error',
+            error: err.message,
         });
-        return {
-            status: 500,
-            message: error.message,
-            data: null,
-        };
+
+        console.log("message");
+        throw new Error("Error hashing password: " + err.message);
     }
 };
 
 const comparePasswords = async (password, encryptedPasswords) => {
     try {
-        const compare = await bcrypt.compare(password, encryptedPasswords);
-        return compare;
-    } catch (error) {
+        return await bcrypt.compare(password, encryptedPasswords);
+    } catch (err) {
         logger.error({
             message: 'Error comparing passwords',
-            error: error.message,
+            error: err.message,
         });
-        return {
-            status: 500,
-            message: error.message,
-            data: null,
-        };
+        throw new Error("Error comparing passwords: " + err.message);
     }
 };
 

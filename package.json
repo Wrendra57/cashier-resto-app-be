@@ -6,6 +6,8 @@
   "scripts": {
     "start": "bin/www",
     "dev": "nodemon -q bin/www",
+    "test": "NODE_ENV=test && npx sequelize-cli db:migrate:undo:all --env test && npx sequelize-cli db:migrate --env test && jest --forceExit",
+    "db:reset:test": "NODE_ENV=test && npx sequelize-cli db:migrate:undo:all --env test && npx sequelize-cli db:migrate --env test && npx sequelize-cli db:seed:all --seeders-path db/seeds/test --env test",
     "db:create": "./node_modules/.bin/sequelize-cli db:create",
     "db:drop": "./node_modules/.bin/sequelize-cli db:drop",
     "db:migrate": "./node_modules/.bin/sequelize-cli db:migrate",

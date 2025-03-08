@@ -33,7 +33,7 @@ const created = ( data, message)=>{
 const badRequest = ( message)=>{
     return {
         code:400,
-        status: "Error",
+        status: "Failed",
         message: message,
         data: null
     }
