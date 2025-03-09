@@ -6,6 +6,7 @@ const template = require('../utils/template/templateResponeApi')
 const sequelize = require('../models').sequelize
 const Bcrypt = require('../utils/converter/bcrypt')
 const jwtToken = require('../utils/converter/jwtToken')
+
 const createUser = async (params) => {
     const transaction = await sequelize.transaction();
     try {
@@ -91,7 +92,7 @@ const loginUser = async ({emailOrPhoneNumber, password}) =>{
             return template.badRequest("Role not found");
         }
 
-        const token = jwtToken.generateToken({id:existingUser.id,role:role.role, is_verified:existingUser.is_verified})
+        const token = jwtToken.generateToken({id:existingUser.id,role:role.roles, is_verified:existingUser.is_verified})
 
         return template.success({token}, "Login successfully");
 

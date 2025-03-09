@@ -1,4 +1,4 @@
-const userService=require("../../../services/userService")
+const userService=require("../../../services/authService")
 const createLogger = require("../../../utils/logger")
 const logger = createLogger(__filename)
 const template = require('../../../utils/template/templateResponeApi')

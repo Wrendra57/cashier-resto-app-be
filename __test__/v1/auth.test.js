@@ -3,15 +3,15 @@ const request = require('supertest')
 const {User,UserRole} = require('../../app/models')
 const {sequelize} = require('../../app/models')
 
-describe('Test group endpoint api/v1/users', () => {
+describe('Test group endpoint api/v1/auth', () => {
     beforeAll((done) =>{
         server = app.listen(done);
     })
     afterAll((done)=>{
         server.close(done);
     })
-    const baseUrl = '/api/v1/users'
-    describe('POST /users/register', () => {
+    const baseUrl = '/api/v1/auth'
+    describe('POST /auth/register', () => {
         afterEach(() => {
             jest.clearAllMocks();
             jest.resetAllMocks();
@@ -26,7 +26,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678901'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(201)
@@ -46,7 +46,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678902'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(500)
@@ -64,7 +64,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678903'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -81,7 +81,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678904'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -98,7 +98,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678905'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -115,7 +115,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678906'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -131,7 +131,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678907'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -148,7 +148,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678908'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -164,7 +164,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678909'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -181,7 +181,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '083456789010'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -197,7 +197,7 @@ describe('Test group endpoint api/v1/users', () => {
                 name:'test',
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -214,7 +214,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '0834567'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -231,7 +231,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '0834567890123456'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -248,7 +248,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '083456734@3'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -265,7 +265,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '183456734334'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -283,7 +283,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '0834567890123'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -300,7 +300,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '628324524002'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(400)
@@ -326,7 +326,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678916'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(500)
@@ -352,7 +352,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678917'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(500)
@@ -373,7 +373,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678918'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(500)
@@ -394,7 +394,7 @@ describe('Test group endpoint api/v1/users', () => {
                 phone_number: '08345678918'
             }
             return request(server)
-                .post(`${baseUrl}`)
+                .post(`${baseUrl}/register`)
                 .send(body)
                 .then((res)=>{
                     expect(res.statusCode).toEqual(500)
