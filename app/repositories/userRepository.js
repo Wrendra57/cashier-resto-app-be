@@ -41,8 +41,6 @@ const findByEmail = async ({email,transaction=null})=>{
             type: sequelize.QueryTypes.SELECT,
             ...options
         });
-        console.log(user)
-        console.log(user.length)
         if (user.length > 0) {
             logger.info({
                 message: "User found successfully in the database",

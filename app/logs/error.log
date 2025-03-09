@@ -866,3 +866,28 @@
 {"error":"Database query error: syntax error at or near \"LIMIT\"","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:44:09.372Z"}
 {"error":"syntax error at or near \"LIMIT\"","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T21:44:53.893Z","userId":"fb728f79-ce38-4857-9595-7abb152603cf"}
 {"error":"Database query error: syntax error at or near \"LIMIT\"","file":"userService.js","level":"error","message":"Error login user","timestamp":"2025-03-08T21:44:53.894Z"}
+{"error":"Database Error When Creating User","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"test_register_user_register_2@test.com","name":"test","password":"$2b$12$eLKQp5nZPaSJ/bxgMC.x3e9SmcC65prZT6LSLCreEKHaK3FGt14PO","phone_number":"628345678902"},"timestamp":"2025-03-08T23:57:00.964Z"}
+{"error":"Database query error: Database Error When Creating User","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-08T23:57:00.972Z"}
+{"email":"testing_1@test.com","file":"userService.js","level":"error","message":"Email or phone number already exists","timestamp":"2025-03-08T23:57:01.603Z"}
+{"file":"userService.js","level":"error","message":"Email or phone number already exists","phone_number":"628324524002","timestamp":"2025-03-08T23:57:02.070Z"}
+{"email":"test_register_user_register_16@test.com","error":"mockError is not defined","file":"userRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T23:57:02.422Z"}
+{"error":"Database query error: mockError is not defined","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-08T23:57:02.423Z"}
+{"error":"mockError is not defined","file":"userRepository.js","level":"error","message":"Database query error","phoneNumber":"628345678917","timestamp":"2025-03-08T23:57:02.749Z"}
+{"error":"Database query error: mockError is not defined","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-08T23:57:02.750Z"}
+{"error":"Database Error When Creating User","file":"userRoleRepository.js","level":"error","message":"Database query error","params":{"role":"user","user_id":"53d6e91c-23c7-4ada-93fe-352872ecf506"},"timestamp":"2025-03-08T23:57:03.095Z"}
+{"error":"Database query error: Database Error When Creating User","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-08T23:57:03.105Z"}
+{"error":"Database Error When Creating User","file":"userRoleRepository.js","level":"error","message":"Database query error","params":{"role":"user","user_id":"884fa040-a06f-4029-9ccd-78ed44615d0c"},"timestamp":"2025-03-08T23:57:03.419Z"}
+{"error":"Database query error: Database Error When Creating User","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-08T23:57:03.423Z"}
+{"error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"test@test.com","name":"usertest","password":"$2b$12$5DboT0TmoojFyGD5MtFoMeZ5VfgAYZoglvGtGKK6UqTlQJjxH03qO","phone_number":"628123456789"},"timestamp":"2025-03-08T23:57:04.075Z"}
+{"email":"error@test.com","error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-08T23:57:04.120Z"}
+{"error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","phoneNumber":"errorPhoneNumber","timestamp":"2025-03-08T23:57:04.136Z"}
+{"email":"test@test.com","file":"userService.js","level":"error","message":"Email or phone number already exists","timestamp":"2025-03-08T23:57:05.335Z"}
+{"file":"userService.js","level":"error","message":"Email or phone number already exists","phone_number":"628123456789","timestamp":"2025-03-08T23:57:05.338Z"}
+{"error":"Database query error","file":"userService.js","level":"error","message":"Error creating user","timestamp":"2025-03-08T23:57:05.341Z"}
+{"error":"Database query error","file":"userController.js","level":"error","message":"Error registering user","timestamp":"2025-03-08T23:57:06.121Z"}
+{"error":"Database query error","file":"userRoleRepository.js","level":"error","message":"Database query error","params":{"role":"admin","userId":"user123"},"timestamp":"2025-03-08T23:57:06.952Z"}
+{"error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","params":{"email":"test@test.com","name":"usertest","password":"$2b$12$5DboT0TmoojFyGD5MtFoMeZ5VfgAYZoglvGtGKK6UqTlQJjxH03qO","phone_number":"628123456789"},"timestamp":"2025-03-09T00:03:50.624Z"}
+{"email":"error@test.com","error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-09T00:03:50.718Z"}
+{"error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","phoneNumber":"errorPhoneNumber","timestamp":"2025-03-09T00:03:50.760Z"}
+{"error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","params":"error@test.com","timestamp":"2025-03-09T00:07:43.735Z"}
+{"error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","params":"error@test.com","timestamp":"2025-03-09T00:08:31.827Z"}
