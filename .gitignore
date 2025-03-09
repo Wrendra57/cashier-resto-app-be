@@ -1,5 +1,6 @@
 node_modules
 .env
 coverage/
-app/logs/
+app/logs/combined.log
+app/logs/error.log
 a.text
