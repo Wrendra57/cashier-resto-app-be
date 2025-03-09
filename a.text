@@ -1,0 +1,19 @@
+Gunakan feat: untuk fitur baru.
+Gunakan fix: untuk bug fix.
+Gunakan refactor: jika hanya mengubah struktur kode tanpa mengubah fungsionalitas.
+Gunakan test: untuk perubahan yang berkaitan dengan unit/integration test.
+Gunakan ci: untuk perubahan pada konfigurasi CI/CD.
+
+fix(db): handle transaction rollback on failure
+
+Fixed a bug where transaction was not rolled back on error.
+
+perf(query): optimize user lookup with index
+
+refactor(controller): split registerUser function for better readability
+
+test(userService): add unit test for createUser function
+
+docs(api): update README with authentication flow
+
+ci(github-actions): add test workflow for PR validation
