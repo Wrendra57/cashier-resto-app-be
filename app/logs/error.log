@@ -891,3 +891,6 @@
 {"error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","phoneNumber":"errorPhoneNumber","timestamp":"2025-03-09T00:03:50.760Z"}
 {"error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","params":"error@test.com","timestamp":"2025-03-09T00:07:43.735Z"}
 {"error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","params":"error@test.com","timestamp":"2025-03-09T00:08:31.827Z"}
+{"error":"Database query error","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-09T00:44:17.467Z","userId":"error-user-id"}
+{"error":"Database query error","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-09T00:46:38.232Z","userId":"error-user-id"}
+{"error":"Database query error","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-09T00:46:46.924Z","userId":"error-user-id"}

@@ -3277,3 +3277,15 @@
 {"file":"userRepository.js","level":"warn","message":"User not found in the database","params":"notfound@test.com","timestamp":"2025-03-09T00:08:31.820Z"}
 {"error":"Database query error","file":"userRepository.js","level":"error","message":"Database query error","params":"error@test.com","timestamp":"2025-03-09T00:08:31.827Z"}
 {"file":"userRepository.js","level":"info","message":"User found successfully in the database","timestamp":"2025-03-09T00:08:31.856Z","userId":"b0f2db86-88b9-43a7-bc65-0a0e2be8a26b"}
+{"file":"userRoleRepository.js","level":"info","message":"User Role found successfully in the database","timestamp":"2025-03-09T00:44:17.419Z"}
+{"file":"userRoleRepository.js","level":"warn","message":"User Role not found in the database","timestamp":"2025-03-09T00:44:17.457Z","userId":"notfound-user-id"}
+{"error":"Database query error","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-09T00:44:17.467Z","userId":"error-user-id"}
+{"file":"userRoleRepository.js","level":"info","message":"User Role found successfully in the database","timestamp":"2025-03-09T00:44:17.477Z"}
+{"file":"userRoleRepository.js","level":"info","message":"User Role found successfully in the database","timestamp":"2025-03-09T00:46:38.218Z"}
+{"file":"userRoleRepository.js","level":"warn","message":"User Role not found in the database","timestamp":"2025-03-09T00:46:38.229Z","userId":"notfound-user-id"}
+{"error":"Database query error","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-09T00:46:38.232Z","userId":"error-user-id"}
+{"file":"userRoleRepository.js","level":"info","message":"User Role found successfully in the database","timestamp":"2025-03-09T00:46:38.251Z"}
+{"file":"userRoleRepository.js","level":"info","message":"User Role found successfully in the database","timestamp":"2025-03-09T00:46:46.910Z"}
+{"file":"userRoleRepository.js","level":"warn","message":"User Role not found in the database","timestamp":"2025-03-09T00:46:46.920Z","userId":"notfound-user-id"}
+{"error":"Database query error","file":"userRoleRepository.js","level":"error","message":"Database query error","timestamp":"2025-03-09T00:46:46.924Z","userId":"error-user-id"}
+{"file":"userRoleRepository.js","level":"info","message":"User Role found successfully in the database","timestamp":"2025-03-09T00:46:46.941Z"}
