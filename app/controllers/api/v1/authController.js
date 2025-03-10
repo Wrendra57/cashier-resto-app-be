@@ -6,9 +6,7 @@ const {convertPhoneNumber} = require("../../../utils/converter/converterPhoneNum
 const {regexpToText} = require("nodemon/lib/utils");
 const {toTemplateResponseApi} = require("../../../utils/template/templateResponeApi");
 const registerUser = async (req, res) => {
-
         const { name, email, password } = req.body;
-
         const phone_number = await convertPhoneNumber(req.body.phone_number);
         const registeredUser = await userService.createUser({ name, email, password, phone_number });
 
