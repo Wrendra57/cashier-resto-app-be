@@ -65,7 +65,6 @@ const createUser = async (params) => {
 };
 
 const loginUser = async ({emailOrPhoneNumber, password}) =>{
-
     try {
         const existingUser = await userRepository.findByEmailOrPhoneNumber({ params: emailOrPhoneNumber });
         if (!existingUser) {

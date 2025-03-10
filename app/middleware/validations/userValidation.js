@@ -19,19 +19,21 @@ const createUserValidation = yup.object({
             .min(6, 'Password must be at least 6 characters'),
         phone_number: yup
             .string()
-            .required('Phone number is required')
-            .min(7, 'Phone number must be at least 7 characters')
-            .max(15, 'Phone number must be maximum 15 characters')
-            .matches(/^[0-9]+$/, {message: "Phone number must be only number"})
-            .test('is-valid-phone', 'Phone number is not valid', value => {
-                if (!value) return false;
+            .required("Phone number is required")
+            .transform((value) => {
+                if (value == null) return "";
                 const phoneNumber = convertPhoneNumber(value);
-                return phoneNumber !== null;
+                return phoneNumber !== false ? phoneNumber : value;
             })
-            .transform(value => {
-                const phoneNumber = convertPhoneNumber(value);
-                return phoneNumber !== null ? phoneNumber : value;
+            .min(7, "Phone number must be at least 7 characters")
+            .max(15, "Phone number must be maximum 15 characters")
+            .matches(/^[0-9]+$/, { message: "Phone number must be only number" })
+            .test("is-valid-phone", "Phone number is not valid", (value) => {
+                if (!value) return false;
+                return convertPhoneNumber(value) !== false;
             }),
+
+
     })
 })
 
@@ -39,8 +41,24 @@ const loginUserValidation = yup.object({
     body: yup.object({
         emailOrPhoneNumber: yup
             .string()
-            .required('Email or phone number is required')
-            .email("Email is not valid"),
+            .transform((value) => {
+                if (value == null) return ""; // Ubah null/undefined jadi string kosong
+                if (typeof value === "number") return String(value); // Konversi number ke string
+                value = value.trim(); // Hapus spasi di awal/akhir
+
+                // Coba konversi ke nomor telepon, jika valid
+                const convertedPhone = convertPhoneNumber(value);
+                return convertedPhone !== false ? convertedPhone : value;
+            })
+            .required("Email or phone number is required")
+            .test("email-or-phone", "Must be a valid email or phone number", (value) => {
+                if (!value) return false;
+                console.log(value)
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const phoneRegex = /^[0-9]{10,15}$/; // Setelah dikonversi, hanya angka yang valid
+
+                return emailRegex.test(value) || phoneRegex.test(value);
+            }),
         password: yup
             .string()
             .required('Password is required')

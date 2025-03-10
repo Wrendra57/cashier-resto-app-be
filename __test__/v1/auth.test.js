@@ -11,7 +11,7 @@ describe('Test group endpoint api/v1/auth', () => {
         server.close(done);
     })
     const baseUrl = '/api/v1/auth'
-    describe('POST /auth/register', () => {
+    describe('POST api/v1/auth/register', () => {
         afterEach(() => {
             jest.clearAllMocks();
             jest.resetAllMocks();
@@ -408,4 +408,407 @@ describe('Test group endpoint api/v1/auth', () => {
 
     })
 
+    describe('POST api/v1/auth/login', ()=>{
+        afterEach(() => {
+            jest.clearAllMocks();
+            jest.resetAllMocks();
+        })
+        const endpoint = `${baseUrl}/login`
+        // Test cases for emailOrPhoneNumber
+        it('should return 200 when user is login with email', async () => {
+            const body = {
+                emailOrPhoneNumber: 'testing_login_1@test.com',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(200)
+                    expect(res.body.status).toEqual('Success')
+                    expect(res.body.message).toEqual('Login successfully')
+                    expect(res.body.data).toHaveProperty('token')
+                    expect(res.body.data.token).not.toEqual(null)
+                })
+        })
+
+        it('should return 200 when user is login with phone_number', async () => {
+            const body = {
+                emailOrPhoneNumber: "08324524003",
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    console.log(res.body)
+                    expect(res.statusCode).toEqual(200)
+                    expect(res.body.status).toEqual('Success')
+                    expect(res.body.message).toEqual('Login successfully')
+                    expect(res.body.data).toHaveProperty('token')
+                    expect(res.body.data.token).not.toEqual(null)
+                })
+        })
+
+        it('should return 400 when email is missing @ symbol', async () => {
+            const body = {
+                emailOrPhoneNumber: 'testing_login_1test.com',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Must be a valid email or phone number')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 400 when email is missing domain', async () => {
+            const body = {
+                emailOrPhoneNumber: 'testing_login_1@',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Must be a valid email or phone number')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 400 when email has invalid special characters', async () => {
+            const body = {
+                emailOrPhoneNumber: 'testing_login_1@test_com',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Must be a valid email or phone number')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 200 when user logs in with a valid phone number (local format)', async () => {
+            const body = {
+                emailOrPhoneNumber: '08324524003',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(200)
+                    expect(res.body.status).toEqual('Success')
+                    expect(res.body.message).toEqual('Login successfully')
+                    expect(res.body.data).toHaveProperty('token')
+                    expect(res.body.data.token).not.toEqual(null)
+                })
+        });
+
+        it('should return 200 when user logs in with a valid phone number (international format)', async () => {
+            const body = {
+                emailOrPhoneNumber: '+628324524003',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(200)
+                    expect(res.body.status).toEqual('Success')
+                    expect(res.body.message).toEqual('Login successfully')
+                    expect(res.body.data).toHaveProperty('token')
+                    expect(res.body.data.token).not.toEqual(null)
+                })
+        });
+
+        it('should return 400 when phone number contains letters', async () => {
+            const body = {
+                emailOrPhoneNumber: '+6283abc524003',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Must be a valid email or phone number')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 400 when phone number contains special characters other than +', async () => {
+            const body = {
+                emailOrPhoneNumber: '#628324524003',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Must be a valid email or phone number')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 400 when phone number is too short', async () => {
+            const body = {
+                emailOrPhoneNumber: '08324544',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Must be a valid email or phone number')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 400 when phone number is too long', async () => {
+            const body = {
+                emailOrPhoneNumber: '0832454445345534',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Must be a valid email or phone number')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 200 when phone number 08123456789 is converted to 628123456789', async () => {
+            const body = {
+                emailOrPhoneNumber: '628324524003',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(200)
+                    expect(res.body.status).toEqual('Success')
+                    expect(res.body.message).toEqual('Login successfully')
+                    expect(res.body.data).toHaveProperty('token')
+                    expect(res.body.data.token).not.toEqual(null)
+                })
+        });
+
+        it('should return 400 when emailOrPhoneNumber is empty', async () => {
+            const body = {
+                emailOrPhoneNumber: '',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Email or phone number is required')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 400 when emailOrPhoneNumber is null', async () => {
+            const body = {
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Email or phone number is required')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        // Test cases for password
+        it('should return 200 when user logs in with a valid password', async () => {
+            const body = {
+                emailOrPhoneNumber: '628324524003',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(200)
+                    expect(res.body.status).toEqual('Success')
+                    expect(res.body.message).toEqual('Login successfully')
+                    expect(res.body.data).toHaveProperty('token')
+                    expect(res.body.data.token).not.toEqual(null)
+                })
+        });
+
+        it('should return 400 when password is less than 6 characters', async () => {
+            const body = {
+                emailOrPhoneNumber: '628324524003',
+                password: 'passw',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Password must be at least 6 characters')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 400 when password is empty', async () => {
+            const body = {
+                emailOrPhoneNumber: '628324524003',
+                password: '',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Password is required')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 400 when password is null', async () => {
+            const body = {
+                emailOrPhoneNumber: '628324524003',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Password is required')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        // Test cases for user service
+        it('should return 400 when user not existing', async () => {
+            const body = {
+                emailOrPhoneNumber: 'abcd@defg.com',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Email or phone number not found')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 400 when password in correct', async () => {
+            const body = {
+                emailOrPhoneNumber: 'testing_login_1@test.com',
+                password: 'passw0rd',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Password is incorrect')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 400 when password in correct', async () => {
+            const body = {
+                emailOrPhoneNumber: 'testing_login_2@test.com',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Role not found')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 500 when database error user repository findByEmailOrPhoneNumber ', async () => {
+            const mockDatabase= jest.spyOn(sequelize, "query").mockImplementation((query, options) => {
+                if (query.includes("SELECT * FROM users WHERE email = :params or phone_number = :params")) {
+                    return Promise.reject(mockError);
+                }
+                return Promise.resolve([]);
+            });
+            const body = {
+                emailOrPhoneNumber: 'testing_login_1@test.com',
+                password: 'password',
+            }
+            return request(server)
+                .post(`${baseUrl}/login`)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(500)
+                    expect(res.body.status).toEqual('Error')
+                    expect(res.body.message).toEqual('Internal Server Error')
+                    expect(res.body.data).toEqual(null)
+                }).finally(()=>{
+                    mockDatabase.mockRestore()
+                })
+        })
+
+        // it('should return 500 when database error user role findByUserId ', async () => {
+        //     const mockDatabase = jest.spyOn(sequelize, "query").mockImplementation((query, options) => {
+        //         if (query.includes(`SELECT
+        //                                 ur.user_id,
+        //                                 ARRAY_AGG(ur.role) AS roles
+        //                             FROM user_role ur
+        //                             WHERE ur.user_id = :userId
+        //                             GROUP BY ur.user_id
+        //                             LIMIT 1`)) {
+        //             return Promise.reject(new Error('Database query error'));
+        //         }
+        //         return Promise.resolve([]);
+        //     });
+        //     const body = {
+        //         emailOrPhoneNumber: '628324524003',
+        //         password: 'password',
+        //     }
+        //     return request(server)
+        //         .post(`${baseUrl}/login`)
+        //         .send(body)
+        //         .then((res)=>{
+        //             console.log(res.body)
+        //             expect(res.statusCode).toEqual(500)
+        //             expect(res.body.status).toEqual('Error')
+        //             expect(res.body.message).toEqual('Internal Server Error')
+        //             expect(res.body.data).toEqual(null)
+        //         })
+        // })
+    })
 })
