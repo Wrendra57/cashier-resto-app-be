@@ -267,4 +267,107 @@ describe('unit test userController function', ()=>{
             });
         });
     });
+
+    describe('unit test authMe function in userController', () => {
+        let req, res;
+
+        beforeEach(() => {
+            req = {
+                user: {
+                    id: 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b'
+                }
+            };
+            res = {
+                status: jest.fn(() => res),
+                json: jest.fn()
+            };
+        });
+
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return user when user and role are found', async () => {
+            const mockUser = {
+                id: 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b',
+                name: 'usertest',
+                email: 'test@test.com',
+                phone_number: '628123456789',
+                is_verified: true,
+                created_at: new Date(),
+                updated_at: new Date(),
+                deleted_at: null,
+                role: ['user']
+            };
+            userService.findById.mockResolvedValue({ code: 200, message: 'User found', data: mockUser });
+            template.toTemplateResponseApi.mockReturnValue({
+                status: 'success',
+                message: 'User found',
+                data: mockUser
+            });
+
+            await userController.authMe(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith({
+                status: 'success',
+                message: 'User found',
+                data: mockUser
+            });
+            expect(userService.findById).toHaveBeenCalledWith(req.user.id);
+        });
+
+        it('should return bad request if user is not found', async () => {
+            userService.findById.mockResolvedValue({ code: 400, message: 'User not found' });
+            template.toTemplateResponseApi.mockReturnValue({
+                status: 'fail',
+                message: 'User not found'
+            });
+
+            await userController.authMe(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({
+                status: 'fail',
+                message: 'User not found'
+            });
+            expect(userService.findById).toHaveBeenCalledWith(req.user.id);
+        });
+
+        it('should return bad request if role is not found', async () => {
+            userService.findById.mockResolvedValue({ code: 400, message: 'Role not found' });
+            template.toTemplateResponseApi.mockReturnValue({
+                status: 'fail',
+                message: 'Role not found'
+            });
+
+            await userController.authMe(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({
+                status: 'fail',
+                message: 'Role not found'
+            });
+            expect(userService.findById).toHaveBeenCalledWith(req.user.id);
+        });
+
+        it('should handle error during user retrieval', async () => {
+            const errorMessage = 'Database query error';
+            userService.findById.mockRejectedValue(new Error(errorMessage));
+            template.internalServerError.mockReturnValue({
+                status: 'error',
+                message: 'Internal Server Error'
+            });
+
+            await userController.authMe(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({
+                status: 'error',
+                message: 'Internal Server Error'
+            });
+            expect(userService.findById).toHaveBeenCalledWith(req.user.id);
+        });
+    });
+
 })
