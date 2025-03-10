@@ -4,6 +4,7 @@ const logger = createLogger(__filename)
 const template = require('../../../utils/template/templateResponeApi')
 const {convertPhoneNumber} = require("../../../utils/converter/converterPhoneNumber");
 const {regexpToText} = require("nodemon/lib/utils");
+const {toTemplateResponseApi} = require("../../../utils/template/templateResponeApi");
 const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -46,4 +47,18 @@ const login = async (req, res) => {
         return res.status(500).json(template.internalServerError());
     }
 };
-module.exports= {registerUser,login}
+
+const authMe = async (req, res) => {
+    try {
+        const userId= req.user.id;
+        const user = await userService.findById(userId);
+        return res.status(200).json(toTemplateResponseApi(user));
+    } catch (error) {
+        logger.error({
+            message: 'Error logging in user',
+            error: error.message,
+        });
+        return res.status(500).json(template.internalServerError());
+    }
+}
+module.exports= {registerUser,login,authMe}

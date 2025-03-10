@@ -65,6 +65,40 @@ const findByEmail = async ({email,transaction=null})=>{
     }
 }
 
+const findById = async ({id,transaction=null})=>{
+    try {
+        const options = {};
+        if (transaction) {
+            options.transaction = transaction;
+            options.lock = transaction.LOCK.UPDATE;
+        }
+        const query = 'SELECT * FROM users WHERE id = :id';
+        const user = await sequelize.query(query, {
+            replacements: { id },
+            type: sequelize.QueryTypes.SELECT,
+            ...options
+        });
+        if (user.length > 0) {
+            logger.info({
+                message: "User found successfully in the database",
+                userId: user[0].id,
+            });
+            return user[0];
+        } else {
+            logger.warn({
+                message: "User not found in the database",
+            });
+            return null;
+        }
+    } catch (error) {
+        logger.error({
+            message: 'Database query error',
+            error: error.message,
+        });
+        throw new Error("Database query error: " + error.message);
+    }
+}
+
 const findByPhoneNumber  = async ({phoneNumber,transaction=null})=>{
     try {
         const options = {};
@@ -140,4 +174,4 @@ const findByEmailOrPhoneNumber = async ({params,transaction=null})=>{
         throw new Error("Database query error: " + error.message);
     }
 }
-module.exports={insert,findByEmail,findByPhoneNumber,findByEmailOrPhoneNumber}
+module.exports={insert,findByEmail,findByPhoneNumber,findByEmailOrPhoneNumber,findById}

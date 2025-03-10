@@ -16,14 +16,13 @@ const generateToken = (payload) =>{
 
 const verifyToken = (token) => {
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        return decoded;
+        return jwt.verify(token, process.env.JWT_SECRET);
     } catch (e) {
         logger.error({
             message: 'Error verifying token',
             error: e.message,
         });
-        throw new Error('Error verifying token');
+       return null
     }
 };
 
