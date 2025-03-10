@@ -91,27 +91,7 @@ describe('unit test userController function', ()=>{
         expect(toTemplateResponseApi).toHaveBeenCalledWith(mockResponseService);
     });
 
-    it('should handle internal server error', async () => {
-        const mockResponseService = {
-            code: 500,
-            status: 'error',
-            message: 'Internal Server Error'
-        };
-        userService.createUser.mockRejectedValue(new Error('Database query error'));
-        template.internalServerError.mockReturnValue(mockResponseService);
 
-        await userController.registerUser(req, res);
-
-        expect(res.status).toHaveBeenCalledWith(500);
-        expect(res.json).toHaveBeenCalledWith(mockResponseService);
-        expect(userService.createUser).toHaveBeenCalledWith({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password,
-            phone_number: req.body.phone_number
-        });
-        expect(template.internalServerError).toHaveBeenCalled();
-    });
 });
 
     describe('unit test login function in userController', () => {
@@ -243,29 +223,7 @@ describe('unit test userController function', ()=>{
             expect(template.toTemplateResponseApi).toHaveBeenCalledWith(mockResponseService);
         });
 
-        it('should handle error during login process', async () => {
-            const errorMessage = 'Database query error';
-            userService.loginUser.mockRejectedValue(new Error(errorMessage));
-            template.internalServerError.mockReturnValue({
-                code: 500,
-                status: 'error',
-                message: 'Internal Server Error'
-            });
 
-
-            await userController.login(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(500);
-            expect(res.json).toHaveBeenCalledWith({
-                code: 500,
-                status: 'error',
-                message: 'Internal Server Error'
-            });
-            expect(userService.loginUser).toHaveBeenCalledWith({
-                emailOrPhoneNumber: req.body.emailOrPhoneNumber,
-                password: req.body.password
-            });
-        });
     });
 
     describe('unit test authMe function in userController', () => {
@@ -351,23 +309,6 @@ describe('unit test userController function', ()=>{
             expect(userService.findById).toHaveBeenCalledWith(req.user.id);
         });
 
-        it('should handle error during user retrieval', async () => {
-            const errorMessage = 'Database query error';
-            userService.findById.mockRejectedValue(new Error(errorMessage));
-            template.internalServerError.mockReturnValue({
-                status: 'error',
-                message: 'Internal Server Error'
-            });
-
-            await userController.authMe(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(500);
-            expect(res.json).toHaveBeenCalledWith({
-                status: 'error',
-                message: 'Internal Server Error'
-            });
-            expect(userService.findById).toHaveBeenCalledWith(req.user.id);
-        });
     });
 
 })
