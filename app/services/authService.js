@@ -73,6 +73,12 @@ const loginUser = async ({emailOrPhoneNumber, password}) =>{
             });
             return template.badRequest("Email or phone number not found");
         }
+        if (existingUser.is_verified===false){
+            logger.error({
+                message: 'Account not verified',
+            });
+            return template.badRequest("Account not verified");
+        }
 
         const comparedPassword = await Bcrypt.comparePasswords(password, existingUser.password);
         if (!comparedPassword) {
@@ -83,7 +89,6 @@ const loginUser = async ({emailOrPhoneNumber, password}) =>{
         }
 
         const role = await userRoleRepository.findByUserId({userId:existingUser.id})
-        console.log(role)
         if (!role) {
             logger.error({
                 message: 'Role not found',

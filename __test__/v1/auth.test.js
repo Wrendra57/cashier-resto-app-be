@@ -742,7 +742,23 @@ describe('Test group endpoint api/v1/auth', () => {
                 })
         });
 
-        it('should return 400 when password in correct', async () => {
+        it('should return 400 when user not verified', async () => {
+            const body = {
+                emailOrPhoneNumber: 'testing_login_3@test.com',
+                password: 'password',
+            }
+            return request(server)
+                .post(endpoint)
+                .send(body)
+                .then((res)=>{
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.status).toEqual('Failed')
+                    expect(res.body.message).toEqual('Account not verified')
+                    expect(res.body.data).toEqual(null)
+                })
+        });
+
+        it('should return 400 when role not found', async () => {
             const body = {
                 emailOrPhoneNumber: 'testing_login_2@test.com',
                 password: 'password',
@@ -782,33 +798,5 @@ describe('Test group endpoint api/v1/auth', () => {
                 })
         })
 
-        // it('should return 500 when database error user role findByUserId ', async () => {
-        //     const mockDatabase = jest.spyOn(sequelize, "query").mockImplementation((query, options) => {
-        //         if (query.includes(`SELECT
-        //                                 ur.user_id,
-        //                                 ARRAY_AGG(ur.role) AS roles
-        //                             FROM user_role ur
-        //                             WHERE ur.user_id = :userId
-        //                             GROUP BY ur.user_id
-        //                             LIMIT 1`)) {
-        //             return Promise.reject(new Error('Database query error'));
-        //         }
-        //         return Promise.resolve([]);
-        //     });
-        //     const body = {
-        //         emailOrPhoneNumber: '628324524003',
-        //         password: 'password',
-        //     }
-        //     return request(server)
-        //         .post(`${baseUrl}/login`)
-        //         .send(body)
-        //         .then((res)=>{
-        //             console.log(res.body)
-        //             expect(res.statusCode).toEqual(500)
-        //             expect(res.body.status).toEqual('Error')
-        //             expect(res.body.message).toEqual('Internal Server Error')
-        //             expect(res.body.data).toEqual(null)
-        //         })
-        // })
     })
 })

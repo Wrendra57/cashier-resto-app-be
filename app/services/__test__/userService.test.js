@@ -148,6 +148,13 @@ describe('unit test function in userService', ()=>{
             email: 'test@test.com',
             password: '$2b$12$5DboT0TmoojFyGD5MtFoMeZ5VfgAYZoglvGtGKK6UqTlQJjxH03qO',
             phone_number: '628123456789',
+            is_verified: true,
+        };
+        const mockUserUnverified = {
+            id: 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b',
+            email: 'test@test.com',
+            password: '$2b$12$5DboT0TmoojFyGD5MtFoMeZ5VfgAYZoglvGtGKK6UqTlQJjxH03qO',
+            phone_number: '628123456789',
             is_verified: false,
         };
 
@@ -195,6 +202,17 @@ describe('unit test function in userService', ()=>{
             expect(result).toEqual({ status: 400, message: 'Password is incorrect' });
             expect(userRepository.findByEmailOrPhoneNumber).toHaveBeenCalledWith({ params: params.emailOrPhoneNumber });
             expect(Bcrypt.comparePasswords).toHaveBeenCalledWith(params.password, mockUser.password);
+        });
+
+        it('should return bad request if user not verified', async () => {
+            userRepository.findByEmailOrPhoneNumber.mockResolvedValue(mockUserUnverified);
+            template.badRequest.mockReturnValue({ status: 400, message: 'Account not verified' });
+
+            const params = { emailOrPhoneNumber: 'test@test.com', password: 'password' };
+            const result = await loginUser(params);
+
+            expect(result).toEqual({ status: 400, message: 'Account not verified' });
+            expect(userRepository.findByEmailOrPhoneNumber).toHaveBeenCalledWith({ params: params.emailOrPhoneNumber });
         });
 
         it('should return bad request if role is not found', async () => {
