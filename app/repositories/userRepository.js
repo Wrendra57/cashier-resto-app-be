@@ -111,6 +111,7 @@ const findByEmailOrPhoneNumber = async ({params,transaction=null})=>{
             options.lock = transaction.LOCK.UPDATE;
         }
         const query = 'SELECT * FROM users WHERE email = :params or phone_number = :params';
+
         const user = await sequelize.query(query, {
             replacements: { params },
             type: sequelize.QueryTypes.SELECT,
