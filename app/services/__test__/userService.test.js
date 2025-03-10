@@ -1,6 +1,6 @@
 const userRepository = require('../../repositories/userRepository')
 const userRoleRepository = require('../../repositories/userRoleRepository')
-const {createUser, loginUser} = require('../authService')
+const {createUser, loginUser, findById} = require('../authService')
 const sequelize = require('../../models').sequelize
 const Bcrypt = require('../../utils/converter/bcrypt');
 const template = require('../../utils/template/templateResponeApi');
@@ -240,6 +240,73 @@ describe('unit test function in userService', ()=>{
 
             expect(result).toEqual({ status: 500, message: 'Internal Server Error' });
             expect(userRepository.findByEmailOrPhoneNumber).toHaveBeenCalledWith({ params: params.emailOrPhoneNumber });
+        });
+    });
+
+    describe('unit test findById function in userService', () => {
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        const mockUser = {
+            id: 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b',
+            name: 'usertest',
+            email: 'test@test.com',
+            phone_number: '628123456789',
+            is_verified: true,
+            created_at: new Date(),
+            updated_at: new Date(),
+            deleted_at: null
+        };
+
+        const mockUserRole = {
+            user_id: 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b',
+            roles: ['user']
+        };
+
+        it('should return user when user and role are found', async () => {
+            userRepository.findById.mockResolvedValue(mockUser);
+            userRoleRepository.findByUserId.mockResolvedValue(mockUserRole);
+            template.success.mockReturnValue({ status: 200, message: 'User found', data: mockUser });
+
+            const result = await findById(mockUser.id);
+
+            expect(result).toEqual({ status: 200, message: 'User found', data: expect.objectContaining({ id: mockUser.id }) });
+            expect(userRepository.findById).toHaveBeenCalledWith({ id: mockUser.id });
+            expect(userRoleRepository.findByUserId).toHaveBeenCalledWith({ userId: mockUser.id });
+        });
+
+        it('should return bad request if user is not found', async () => {
+            userRepository.findById.mockResolvedValue(null);
+            template.badRequest.mockReturnValue({ status: 400, message: 'User not found' });
+
+            const result = await findById('nonexistent-id');
+
+            expect(result).toEqual({ status: 400, message: 'User not found' });
+            expect(userRepository.findById).toHaveBeenCalledWith({ id: 'nonexistent-id' });
+        });
+
+        it('should return bad request if role is not found', async () => {
+            userRepository.findById.mockResolvedValue(mockUser);
+            userRoleRepository.findByUserId.mockResolvedValue(null);
+            template.badRequest.mockReturnValue({ status: 400, message: 'Role not found' });
+
+            const result = await findById(mockUser.id);
+
+            expect(result).toEqual({ status: 400, message: 'Role not found' });
+            expect(userRepository.findById).toHaveBeenCalledWith({ id: mockUser.id });
+            expect(userRoleRepository.findByUserId).toHaveBeenCalledWith({ userId: mockUser.id });
+        });
+
+        it('should handle error during user retrieval', async () => {
+            const errorMessage = 'Database query error';
+            userRepository.findById.mockRejectedValue(new Error(errorMessage));
+            template.internalServerError.mockReturnValue({ status: 500, message: 'Internal Server Error' });
+
+            const result = await findById(mockUser.id);
+
+            expect(result).toEqual({ status: 500, message: 'Internal Server Error' });
+            expect(userRepository.findById).toHaveBeenCalledWith({ id: mockUser.id });
         });
     });
 })
