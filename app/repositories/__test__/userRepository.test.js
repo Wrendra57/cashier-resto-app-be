@@ -1,4 +1,4 @@
-const { insert, findByEmail,findByPhoneNumber, findByEmailOrPhoneNumber } = require("../userRepository");
+const { insert, findByEmail,findByPhoneNumber,findById, findByEmailOrPhoneNumber } = require("../userRepository");
 const { sequelize } = require("../../models/index.js");
 const { User } = require("../../models");
 const { Error } = require("sequelize");
@@ -381,6 +381,104 @@ describe('unit test in user repositories', () => {
                 'SELECT * FROM users WHERE email = :params or phone_number = :params',
                 {
                     replacements: { params },
+                    type: sequelize.QueryTypes.SELECT
+                }
+            );
+            expect(sequelize.query).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe('unit test findById function in user repositories', () => {
+        const mockUser = [{
+            id: 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b',
+            name: 'usertest',
+            email: 'test@test.com',
+            password: '$2b$12$5DboT0TmoojFyGD5MtFoMeZ5VfgAYZoglvGtGKK6UqTlQJjxH03qO',
+            phone_number: '628123456789',
+            is_verified: false,
+            created_at: new Date(),
+            updated_at: new Date(),
+            deleted_at: null
+        }];
+
+        const transaction = {
+            LOCK: {
+                UPDATE: 'UPDATE'
+            }
+        };
+
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return user when user is found', async () => {
+            sequelize.query.mockResolvedValue(mockUser);
+
+            const id = 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b';
+            const result = await findById({ id, transaction });
+
+            expect(result).toEqual(mockUser[0]);
+            expect(sequelize.query).toBeCalledWith(
+                'SELECT * FROM users WHERE id = :id',
+                {
+                    replacements: { id },
+                    type: sequelize.QueryTypes.SELECT,
+                    transaction,
+                    lock: transaction.LOCK.UPDATE
+                }
+            );
+            expect(sequelize.query).toHaveBeenCalledTimes(1);
+        });
+
+        it('should return null when user is not found', async () => {
+            sequelize.query.mockResolvedValue([]);
+
+            const id = 'nonexistent-id';
+            const result = await findById({ id, transaction });
+
+            expect(result).toBeNull();
+            expect(sequelize.query).toBeCalledWith(
+                'SELECT * FROM users WHERE id = :id',
+                {
+                    replacements: { id },
+                    type: sequelize.QueryTypes.SELECT,
+                    transaction,
+                    lock: transaction.LOCK.UPDATE
+                }
+            );
+            expect(sequelize.query).toHaveBeenCalledTimes(1);
+        });
+
+        it('should throw error when database query fails', async () => {
+            const errorMessage = 'Database query error';
+            sequelize.query.mockRejectedValue(new Error(errorMessage));
+
+            const id = 'error-id';
+
+            await expect(findById({ id, transaction })).rejects.toThrow(`Database query error: ${errorMessage}`);
+            expect(sequelize.query).toBeCalledWith(
+                'SELECT * FROM users WHERE id = :id',
+                {
+                    replacements: { id },
+                    type: sequelize.QueryTypes.SELECT,
+                    transaction,
+                    lock: transaction.LOCK.UPDATE
+                }
+            );
+            expect(sequelize.query).toHaveBeenCalledTimes(1);
+        });
+
+        it('should handle transaction being null', async () => {
+            sequelize.query.mockResolvedValue(mockUser);
+
+            const id = 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b';
+            const result = await findById({ id });
+
+            expect(result).toEqual(mockUser[0]);
+            expect(sequelize.query).toBeCalledWith(
+                'SELECT * FROM users WHERE id = :id',
+                {
+                    replacements: { id },
                     type: sequelize.QueryTypes.SELECT
                 }
             );

@@ -14,6 +14,22 @@ const internalServerError = ()=>{
         data: null
     }
 }
+const unauthorizedError = (message)=>{
+    return {
+        code:401,
+        status: "Unauthorized",
+        message: message,
+        data: null
+    }
+}
+const forbiddenError = (message)=>{
+    return {
+        code:403,
+        status: "Forbidden",
+        message: message,
+        data: null
+    }
+}
 const success = ( data, message)=>{
     return {
         code:200,
@@ -38,4 +54,4 @@ const badRequest = ( message)=>{
         data: null
     }
 }
-module.exports = {toTemplateResponseApi,success,created,internalServerError,badRequest}
+module.exports = {toTemplateResponseApi,success,created,internalServerError,badRequest,unauthorizedError, forbiddenError}

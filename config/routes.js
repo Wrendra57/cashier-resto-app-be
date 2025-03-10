@@ -4,8 +4,9 @@ const swaggerUi = require('swagger-ui-express')
 const swaggerJsdoc = require('swagger-jsdoc')
 const swaggerOptions = require('../app/swagger/swaggerOptions')
 const {validation} = require("../app/middleware/validations");
-const {createUserValidation, loginUserValidation} = require("../app/middleware/validations/userValidation");
+const {createUserValidation, loginUserValidation, findByUserIdValidation} = require("../app/middleware/validations/userValidation");
 const {loginUser} = require("../app/services/authService");
+const {parseToken, checkRole} = require("../app/middleware/authorization");
 const swaggerSpec = swaggerJsdoc(swaggerOptions)
 const apiRouter = express.Router();
 
@@ -24,9 +25,19 @@ apiRouter.get("/", (req, res)=>{
 });
 apiRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
+// auth management
+apiRouter.post("/api/v1/auth/register", validation(createUserValidation), controllers.api.v1.authController.registerUser);
+apiRouter.post("/api/v1/auth/login", validation(loginUserValidation), controllers.api.v1.authController.login);
+apiRouter.get("/api/v1/auth/me", parseToken, controllers.api.v1.authController.authMe);
+
 // user management
-apiRouter.post("/api/v1/auth/register", validation(createUserValidation), controllers.api.v1.userController.registerUser);
-apiRouter.post("/api/v1/auth/login", validation(loginUserValidation), controllers.api.v1.userController.login);
+apiRouter.get("/api/v1/users/:id",
+    validation(findByUserIdValidation),
+    parseToken,
+    checkRole(["superadmin"]),
+    controllers.api.v1.userController.findByUserId);
+
+
 
 
 apiRouter.get("/api/v1/errors", () => {
