@@ -3,7 +3,9 @@ const request = require('supertest')
 const {User,UserRole} = require('../../app/models')
 const {sequelize} = require('../../app/models')
 const jwt = require('jsonwebtoken');
+const userService = require('../../app/services/userService');
 
+jest.mock('../../app/services/userService');
 
 describe("Test group endpoint api/v1/users", ()=>{
     beforeAll((done) =>{
@@ -120,4 +122,86 @@ describe("Test group endpoint api/v1/users", ()=>{
                 });
         });
     });
+
+    describe('PATCH /api/v1/users/verify/:id', () => {
+        const baseUrl = '/api/v1/users/verify';
+        const superAdminId = 'b155d3d3-6ee2-4139-aa2d-c22aa85903dc';
+        const validUserId = '480b1d66-8c1b-4891-9415-c4218a62abad';
+        const invalidUserId = 'invalid-uuid';
+        const validToken = jwt.sign({ id: superAdminId, role: ['user','admin','superadmin'], is_verified: true }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const expiredToken = jwt.sign({ id: superAdminId, role: ['user','admin','superadmin'], is_verified: true }, process.env.JWT_SECRET, { expiresIn: '-1h' });
+
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return 200 and verify user successfully', async () => {
+            userService.verifyUser.mockResolvedValue({
+                code: 200,
+                status: 'success',
+                message: 'User verify updated successfully',
+                data: { id: validUserId }
+            });
+
+            const res = await request(server)
+                .patch(`${baseUrl}/${validUserId}`)
+                .set('Authorization', `Bearer ${validToken}`)
+                .send({ is_verified: 'true' });
+
+            expect(res.statusCode).toEqual(200);
+            expect(res.body.status).toEqual('success');
+            expect(res.body.message).toEqual('User verify updated successfully');
+            expect(res.body.data).toHaveProperty('id', validUserId);
+        });
+
+        it('should return 400 for invalid user ID', async () => {
+            const res = await request(server)
+                .patch(`${baseUrl}/${invalidUserId}`)
+                .set('Authorization', `Bearer ${validToken}`)
+                .send({ is_verified: 'true' });
+
+            expect(res.statusCode).toEqual(400);
+            expect(res.body.status).toEqual('Failed');
+            expect(res.body.message).toEqual('User ID must be a valid UUID');
+            expect(res.body.data).toEqual(null);
+        });
+
+        it('should return 400 for missing is_verified field', async () => {
+            const res = await request(server)
+                .patch(`${baseUrl}/${validUserId}`)
+                .set('Authorization', `Bearer ${validToken}`)
+                .send({});
+
+            expect(res.statusCode).toEqual(400);
+            expect(res.body.status).toEqual('Failed');
+            expect(res.body.message).toEqual('is_verified is required');
+            expect(res.body.data).toEqual(null);
+        });
+
+        it('should return 401 for missing token', async () => {
+            const res = await request(server)
+                .patch(`${baseUrl}/${validUserId}`)
+                .send({ is_verified: 'true' });
+
+            expect(res.statusCode).toEqual(401);
+            expect(res.body.status).toEqual('Unauthorized');
+            expect(res.body.message).toEqual('Authorization token is required');
+            expect(res.body.data).toEqual(null);
+        });
+
+        it('should return 401 for expired token', async () => {
+            const res = await request(server)
+                .patch(`${baseUrl}/${validUserId}`)
+                .set('Authorization', `Bearer ${expiredToken}`)
+                .send({ is_verified: 'true' });
+
+            expect(res.statusCode).toEqual(401);
+            expect(res.body.status).toEqual('Unauthorized');
+            expect(res.body.message).toEqual('Invalid or expired token');
+            expect(res.body.data).toEqual(null);
+        });
+
+    });
+
+
 })

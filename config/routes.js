@@ -10,16 +10,6 @@ const {parseToken, checkRole} = require("../app/middleware/authorization");
 const swaggerSpec = swaggerJsdoc(swaggerOptions)
 const apiRouter = express.Router();
 
-
-// apiRouter.get("/api/v1/posts", controllers.api.v1.postController.list);
-// apiRouter.post("/api/v1/posts", controllers.api.v1.postController.create);
-// apiRouter.put("/api/v1/posts/:id", controllers.api.v1.postController.update);
-// apiRouter.get("/api/v1/posts/:id", controllers.api.v1.postController.show);
-// apiRouter.delete(
-//   "/api/v1/posts/:id",
-//   controllers.api.v1.postController.destroy
-// );
-
 apiRouter.get("/", (req, res)=>{
   res.status(200).json({Code: 200, message: "Welcome to the API Goto the Documentation API http://localhost:8080/api-docs", data: null});
 });
