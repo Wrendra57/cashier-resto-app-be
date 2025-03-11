@@ -74,4 +74,19 @@ const findByUserIdValidation = yup.object({
             .uuid("User ID must be a valid UUID")
     })
 })
-module.exports = {createUserValidation,loginUserValidation,findByUserIdValidation}
+
+const verifyUserValidation = yup.object({
+    params: yup.object({
+        id: yup
+            .string()
+            .required("User ID is required")
+            .uuid("User ID must be a valid UUID")
+    }),
+    body: yup.object({
+        is_verified: yup
+            .string()
+            .required("is_verified is required")
+            .matches(/^(true|false)$/, "is_verified must be a boolean value")
+    })
+})
+module.exports = {createUserValidation,loginUserValidation,findByUserIdValidation,verifyUserValidation}
