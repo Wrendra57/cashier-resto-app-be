@@ -179,4 +179,119 @@ describe('unit test user controller', ()=> {
             expect(userService.verifyUser).toHaveBeenCalledWith({ isVerified: req.body.is_verified, userId: req.params.id });
         });
     });
+
+    describe('unit test changeRoles function in userController', () => {
+        let req, res;
+
+        beforeEach(() => {
+            req = {
+                params: {
+                    id: 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b'
+                },
+                body: {
+                    role: 'admin'
+                }
+            };
+            res = {
+                status: jest.fn(() => res),
+                json: jest.fn()
+            };
+        });
+
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should update user roles successfully', async () => {
+            const mockResponse = { code: 200, status: 'success', message: 'User roles updated successfully', data: { role: ['admin', 'user'] } };
+            userService.updateRoles.mockResolvedValue(mockResponse);
+            toTemplateResponseApi.mockReturnValue({
+                status: 'success',
+                message: 'User roles updated successfully',
+                data: { role: ['admin', 'user'] }
+            });
+
+            await userController.changeRoles(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith({
+                status: 'success',
+                message: 'User roles updated successfully',
+                data: { role: ['admin', 'user'] }
+            });
+            expect(userService.updateRoles).toHaveBeenCalledWith({ userId: req.params.id, newRole: req.body.role });
+        });
+
+        it('should return bad request if user is not found', async () => {
+            const mockResponse = { code: 400, status: 'fail', message: 'User not found' };
+            userService.updateRoles.mockResolvedValue(mockResponse);
+            toTemplateResponseApi.mockReturnValue({
+                status: 'fail',
+                message: 'User not found'
+            });
+
+            await userController.changeRoles(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({
+                status: 'fail',
+                message: 'User not found'
+            });
+            expect(userService.updateRoles).toHaveBeenCalledWith({ userId: req.params.id, newRole: req.body.role });
+        });
+
+        it('should return bad request if role is not found', async () => {
+            const mockResponse = { code: 400, status: 'fail', message: 'Role not found' };
+            userService.updateRoles.mockResolvedValue(mockResponse);
+            toTemplateResponseApi.mockReturnValue({
+                status: 'fail',
+                message: 'Role not found'
+            });
+
+            await userController.changeRoles(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({
+                status: 'fail',
+                message: 'Role not found'
+            });
+            expect(userService.updateRoles).toHaveBeenCalledWith({ userId: req.params.id, newRole: req.body.role });
+        });
+
+        it('should return bad request if no changes in roles', async () => {
+            const mockResponse = { code: 400, status: 'fail', message: 'No changes in roles' };
+            userService.updateRoles.mockResolvedValue(mockResponse);
+            toTemplateResponseApi.mockReturnValue({
+                status: 'fail',
+                message: 'No changes in roles'
+            });
+
+            await userController.changeRoles(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({
+                status: 'fail',
+                message: 'No changes in roles'
+            });
+            expect(userService.updateRoles).toHaveBeenCalledWith({ userId: req.params.id, newRole: req.body.role });
+        });
+
+        it('should handle error during role update', async () => {
+            const mockResponse = { code: 500, status: 'error', message: 'Internal Server Error' };
+            userService.updateRoles.mockResolvedValue(mockResponse);
+            toTemplateResponseApi.mockReturnValue({
+                status: 'error',
+                message: 'Internal Server Error'
+            });
+
+            await userController.changeRoles(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({
+                status: 'error',
+                message: 'Internal Server Error'
+            });
+            expect(userService.updateRoles).toHaveBeenCalledWith({ userId: req.params.id, newRole: req.body.role });
+        });
+    });
 })
