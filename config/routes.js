@@ -4,7 +4,7 @@ const swaggerUi = require('swagger-ui-express')
 const swaggerJsdoc = require('swagger-jsdoc')
 const swaggerOptions = require('../app/swagger/swaggerOptions')
 const {validation} = require("../app/middleware/validations");
-const {createUserValidation, loginUserValidation, findByUserIdValidation,verifyUserValidation} = require("../app/middleware/validations/userValidation");
+const {createUserValidation, loginUserValidation, findByUserIdValidation,verifyUserValidation, changeRolesValidation} = require("../app/middleware/validations/userValidation");
 const {loginUser} = require("../app/services/authService");
 const {parseToken, checkRole} = require("../app/middleware/authorization");
 const swaggerSpec = swaggerJsdoc(swaggerOptions)
@@ -41,6 +41,11 @@ apiRouter.patch("/api/v1/users/verify/:id",
     parseToken,
     checkRole(["superadmin"]),
     controllers.api.v1.userController.verifyUser);
+apiRouter.patch("/api/v1/users/roles/update/:id",
+    validation(changeRolesValidation),
+    parseToken,
+    checkRole(["superadmin"]),
+    controllers.api.v1.userController.changeRoles);
 
 
 

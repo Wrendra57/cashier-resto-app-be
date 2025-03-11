@@ -22,7 +22,6 @@ const parseToken = async (req,res,next)=>{
             });
             return res.status(401).json(unauthorizedError("Invalid or expired token"));
         }
-        console.log(decodedToken)
         req.user = decodedToken;
 
         next();
@@ -38,7 +37,6 @@ const parseToken = async (req,res,next)=>{
 const checkRole = function (roles=[]) {
     return async (req,res,next)=>{
         const userRoles = req.user.role;
-        console.log(userRoles)
         const cek = roles.filter(element => userRoles.includes(element));
         if (cek.length === 0) {
             logger.error({
