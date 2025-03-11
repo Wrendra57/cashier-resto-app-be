@@ -3,7 +3,8 @@
  * @author Fikri Rahmat Nurhidayat
  */
 
-const userController = require("./authController");
+const authController = require("./authController");
+const userController = require("./userController");
 module.exports = {
-  userController
+  userController, authController
 };

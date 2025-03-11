@@ -65,4 +65,13 @@ const loginUserValidation = yup.object({
             .min(6, 'Password must be at least 6 characters'),
     })
 })
-module.exports = {createUserValidation,loginUserValidation}
+
+const findByUserIdValidation = yup.object({
+    params: yup.object({
+        id: yup
+            .string()
+            .required("User ID is required")
+            .uuid("User ID must be a valid UUID")
+    })
+})
+module.exports = {createUserValidation,loginUserValidation,findByUserIdValidation}

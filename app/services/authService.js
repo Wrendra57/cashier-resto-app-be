@@ -108,6 +108,43 @@ const loginUser = async ({emailOrPhoneNumber, password}) =>{
         return template.internalServerError();
     }
 }
+
+const findById = async (id) =>{
+    try {
+        const existingUser = await userRepository.findById({ id:id });
+        if (!existingUser) {
+            logger.error({
+                message: 'User not found',
+            });
+            return template.badRequest("User not found");
+        }
+        const userRole = await userRoleRepository.findByUserId({userId:id});
+        if (!userRole) {
+            logger.error({
+                message: 'Role not found',
+            });
+            return template.badRequest("Role not found");
+        }
+        const user = {
+            id: existingUser.id,
+            name: existingUser.name,
+            email: existingUser.email,
+            phone_number: existingUser.phone_number,
+            is_verified:existingUser.is_verified,
+            created_at: existingUser.created_at,
+            updated_at: existingUser.updated_at,
+            deleted_at: existingUser.deleted_at,
+            role: userRole.roles
+        }
+        return template.success(user, "User found");
+    } catch (e) {
+        logger.error({
+            message: 'Error find by id user',
+            error: e.message,
+        });
+        return template.internalServerError();
+    }
+}
 module.exports = {
-     createUser,loginUser
+     createUser,loginUser,findById
 }
