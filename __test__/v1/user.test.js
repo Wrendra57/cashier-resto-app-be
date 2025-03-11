@@ -203,5 +203,103 @@ describe("Test group endpoint api/v1/users", ()=>{
 
     });
 
+    describe('PATCH /api/v1/users/roles/update/:id', () => {
+        const baseUrl = '/api/v1/users/roles/update';
+        const superAdminId = 'b155d3d3-6ee2-4139-aa2d-c22aa85903dc';
+        const adminId = 'fb728f79-ce38-4857-9595-7abb152603cf';
+        const validUserId = '4fc3a798-0818-41a0-80c9-3fb902021375';
+        const invalidUserId = 'invalid-uuid';
+        const validToken = jwt.sign({ id: superAdminId, role: ['superadmin'], is_verified: true }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const expiredToken = jwt.sign({ id: superAdminId, role: ['superadmin'], is_verified: true }, process.env.JWT_SECRET, { expiresIn: '-1h' });
 
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should update user roles successfully', async () => {
+            userService.updateRoles.mockResolvedValue({
+                code: 200,
+                status: 'success',
+                message: 'User roles updated successfully',
+                data: { role: ['admin', 'user'] }
+            });
+
+            const res = await request(server)
+                .patch(`${baseUrl}/${validUserId}`)
+                .set('Authorization', `Bearer ${validToken}`)
+                .send({ role: 'admin' });
+
+            expect(res.statusCode).toEqual(200);
+            expect(res.body.status).toEqual('success');
+            expect(res.body.message).toEqual('User roles updated successfully');
+            expect(res.body.data).toHaveProperty('role', ['admin', 'user']);
+        });
+
+        it('should update user2 roles successfully', async () => {
+            userService.updateRoles.mockResolvedValue({
+                code: 200,
+                status: 'success',
+                message: 'User roles updated successfully',
+                data: { role: ['user'] }
+            });
+
+            const res = await request(server)
+                .patch(`${baseUrl}/${adminId}`)
+                .set('Authorization', `Bearer ${validToken}`)
+                .send({ role: 'user' });
+
+            expect(res.statusCode).toEqual(200);
+            expect(res.body.status).toEqual('success');
+            expect(res.body.message).toEqual('User roles updated successfully');
+            expect(res.body.data).toHaveProperty('role', ['user']);
+        })
+
+        it('should return 400 for invalid user ID', async () => {
+            const res = await request(server)
+                .patch(`${baseUrl}/${invalidUserId}`)
+                .set('Authorization', `Bearer ${validToken}`)
+                .send({ role: 'admin' });
+
+            expect(res.statusCode).toEqual(400);
+            expect(res.body.status).toEqual('Failed');
+            expect(res.body.message).toEqual('User ID must be a valid UUID');
+            expect(res.body.data).toEqual(null);
+        });
+
+        it('should return 400 for missing role field', async () => {
+            const res = await request(server)
+                .patch(`${baseUrl}/${validUserId}`)
+                .set('Authorization', `Bearer ${validToken}`)
+                .send({});
+
+            expect(res.statusCode).toEqual(400);
+            expect(res.body.status).toEqual('Failed');
+            expect(res.body.message).toEqual('Roles is required');
+            expect(res.body.data).toEqual(null);
+        });
+
+        it('should return 401 for missing token', async () => {
+            const res = await request(server)
+                .patch(`${baseUrl}/${validUserId}`)
+                .send({ role: 'admin' });
+
+            expect(res.statusCode).toEqual(401);
+            expect(res.body.status).toEqual('Unauthorized');
+            expect(res.body.message).toEqual('Authorization token is required');
+            expect(res.body.data).toEqual(null);
+        });
+
+        it('should return 401 for expired token', async () => {
+            const res = await request(server)
+                .patch(`${baseUrl}/${validUserId}`)
+                .set('Authorization', `Bearer ${expiredToken}`)
+                .send({ role: 'admin' });
+
+            expect(res.statusCode).toEqual(401);
+            expect(res.body.status).toEqual('Unauthorized');
+            expect(res.body.message).toEqual('Invalid or expired token');
+            expect(res.body.data).toEqual(null);
+        });
+
+    });
 })
