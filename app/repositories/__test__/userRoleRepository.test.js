@@ -1,7 +1,7 @@
 const { sequelize } = require("../../models/index.js");
 const { UserRole } = require("../../models");
 const { Error } = require("sequelize");
-const { insert,findByUserId } = require("../userRoleRepository");
+const { insert,findByUserId,deleteByUserIdAndRole} = require("../userRoleRepository");
 
 jest.mock('../../models/index.js', () => {
     const actualSequelize = jest.requireActual('sequelize');
@@ -177,6 +177,78 @@ describe('unit test function in userRoleRepository', () => {
             GROUP BY ur.user_id
             LIMIT 1;`
             ));
+            expect(sequelize.query).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe('unit test deleteByUserIdAndRole function in userRoleRepository', () => {
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        const transaction = {
+            LOCK: {
+                UPDATE: 'UPDATE'
+            }
+        };
+
+        it('should delete user role successfully', async () => {
+            sequelize.query.mockResolvedValue([1]); // Mocking the number of affected rows
+
+            const userId = 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b';
+            const role = 'admin';
+
+            const result = await deleteByUserIdAndRole({ userId, role, transaction });
+
+            expect(result).toEqual(userId);
+            expect(sequelize.query).toBeCalledWith(
+                'DELETE FROM user_role WHERE user_id = :userId AND role = :role;',
+                {
+                    replacements: { userId, role },
+                    type: sequelize.QueryTypes.SELECT,
+                    transaction,
+                    lock: transaction.LOCK.UPDATE
+                }
+            );
+            expect(sequelize.query).toHaveBeenCalledTimes(1);
+        });
+
+        it('should handle transaction being null', async () => {
+            sequelize.query.mockResolvedValue([1]); // Mocking the number of affected rows
+
+            const userId = 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b';
+            const role = 'admin';
+
+            const result = await deleteByUserIdAndRole({ userId, role });
+
+            expect(result).toEqual(userId);
+            expect(sequelize.query).toBeCalledWith(
+                'DELETE FROM user_role WHERE user_id = :userId AND role = :role;',
+                {
+                    replacements: { userId, role },
+                    type: sequelize.QueryTypes.SELECT
+                }
+            );
+            expect(sequelize.query).toHaveBeenCalledTimes(1);
+        });
+
+        it('should throw error when database query fails', async () => {
+            const errorMessage = 'Database query error';
+            sequelize.query.mockRejectedValue(new Error(errorMessage));
+
+            const userId = 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b';
+            const role = 'admin';
+
+            await expect(deleteByUserIdAndRole({ userId, role, transaction })).rejects.toThrow(`Database query error: ${errorMessage}`);
+            expect(sequelize.query).toBeCalledWith(
+                'DELETE FROM user_role WHERE user_id = :userId AND role = :role;',
+                {
+                    replacements: { userId, role },
+                    type: sequelize.QueryTypes.SELECT,
+                    transaction,
+                    lock: transaction.LOCK.UPDATE
+                }
+            );
             expect(sequelize.query).toHaveBeenCalledTimes(1);
         });
     });
