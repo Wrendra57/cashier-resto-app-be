@@ -1,7 +1,7 @@
 const userRepository = require('../../repositories/userRepository')
 const userRoleRepository = require('../../repositories/userRoleRepository')
 const {createUser, loginUser, findById} = require('../authService')
-const {verifyUser} = require('../userService')
+const {verifyUser,updateRoles} = require('../userService')
 const sequelize = require('../../models').sequelize
 const Bcrypt = require('../../utils/converter/bcrypt');
 const template = require('../../utils/template/templateResponeApi');
@@ -361,6 +361,106 @@ describe('unit test function in userService', ()=>{
             expect(result).toEqual({ status: 500, message: 'Internal Server Error' });
             expect(userRepository.findById).toHaveBeenCalledWith({ id: mockUser.id });
             expect(userRepository.update).toHaveBeenCalledWith({ id: mockUser.id, params: { is_verified: true } });
+        });
+    });
+
+    describe('unit test updateRoles function in userService', () => {
+        let transaction;
+
+        beforeEach(() => {
+            transaction = {
+                commit: jest.fn(),
+                rollback: jest.fn(),
+                LOCK: {
+                    UPDATE: 'UPDATE'
+                }
+            };
+            sequelize.transaction.mockResolvedValue(transaction);
+        });
+
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        const mockUser = {
+            id: 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b',
+            name: 'usertest',
+            email: 'test@test.com',
+            phone_number: '628123456789',
+            is_verified: true,
+            created_at: new Date(),
+            updated_at: new Date(),
+            deleted_at: null
+        };
+
+        const mockUserRole = {
+            user_id: 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b',
+            roles: ['user']
+        };
+
+        it('should return bad request if user is not found', async () => {
+            userRepository.findById.mockResolvedValue(null);
+            badRequest.mockReturnValue({ status: 400, message: 'User not found' });
+
+            const result = await updateRoles({ userId: 'nonexistent-id', newRole: 'admin' });
+
+            expect(result).toEqual({ status: 400, message: 'User not found' });
+            expect(userRepository.findById).toHaveBeenCalledWith({ id: 'nonexistent-id', transaction });
+            expect(transaction.rollback).toHaveBeenCalled();
+        });
+
+        it('should return bad request if role is not found', async () => {
+            userRepository.findById.mockResolvedValue(mockUser);
+            userRoleRepository.findByUserId.mockResolvedValue({ roles: [] });
+            badRequest.mockReturnValue({ status: 400, message: 'Role not found' });
+
+            const result = await updateRoles({ userId: mockUser.id, newRole: 'admin' });
+
+            expect(result).toEqual({ status: 400, message: 'Role not found' });
+            expect(userRepository.findById).toHaveBeenCalledWith({ id: mockUser.id, transaction });
+            expect(userRoleRepository.findByUserId).toHaveBeenCalledWith({ userId: mockUser.id, transaction });
+            expect(transaction.rollback).toHaveBeenCalled();
+        });
+
+        it('should return bad request if no changes in roles', async () => {
+            userRepository.findById.mockResolvedValue(mockUser);
+            userRoleRepository.findByUserId.mockResolvedValue({ roles: ['admin', 'user'] });
+            badRequest.mockReturnValue({ status: 400, message: 'No changes in roles' });
+
+            const result = await updateRoles({ userId: mockUser.id, newRole: 'admin' });
+
+            expect(result).toEqual({ status: 400, message: 'No changes in roles' });
+            expect(userRepository.findById).toHaveBeenCalledWith({ id: mockUser.id, transaction });
+            expect(userRoleRepository.findByUserId).toHaveBeenCalledWith({ userId: mockUser.id, transaction });
+            expect(transaction.rollback).toHaveBeenCalled();
+        });
+
+        it('should update user roles successfully', async () => {
+            userRepository.findById.mockResolvedValue(mockUser);
+            userRoleRepository.findByUserId.mockResolvedValue({ roles: ['user'] });
+            userRoleRepository.insert.mockResolvedValue({});
+            userRoleRepository.deleteByUserIdAndRole.mockResolvedValue({});
+            success.mockReturnValue({ status: 200, message: 'User roles updated successfully', data: { role: ['admin', 'user'] } });
+
+            const result = await updateRoles({ userId: mockUser.id, newRole: 'admin' });
+
+            expect(result).toEqual({ status: 200, message: 'User roles updated successfully', data: { role: ['admin', 'user'] } });
+            expect(userRepository.findById).toHaveBeenCalledWith({ id: mockUser.id, transaction });
+            expect(userRoleRepository.findByUserId).toHaveBeenCalledWith({ userId: mockUser.id, transaction });
+            expect(userRoleRepository.insert).toHaveBeenCalledWith({ params: { user_id: mockUser.id, role: 'admin' }, transaction });
+            expect(transaction.commit).toHaveBeenCalled();
+        });
+
+        it('should handle error during role update', async () => {
+            const errorMessage = 'Database query error';
+            userRepository.findById.mockRejectedValue(new Error(errorMessage));
+            internalServerError.mockReturnValue({ status: 500, message: 'Internal Server Error' });
+
+            const result = await updateRoles({ userId: mockUser.id, newRole: 'admin' });
+
+            expect(result).toEqual({ status: 500, message: 'Internal Server Error' });
+            expect(userRepository.findById).toHaveBeenCalledWith({ id: mockUser.id, transaction });
+            expect(transaction.rollback).toHaveBeenCalled();
         });
     });
 })
