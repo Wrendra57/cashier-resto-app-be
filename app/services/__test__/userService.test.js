@@ -1,11 +1,13 @@
 const userRepository = require('../../repositories/userRepository')
 const userRoleRepository = require('../../repositories/userRoleRepository')
 const {createUser, loginUser, findById} = require('../authService')
+const {verifyUser} = require('../userService')
 const sequelize = require('../../models').sequelize
 const Bcrypt = require('../../utils/converter/bcrypt');
 const template = require('../../utils/template/templateResponeApi');
 const jwtToken = require('../../utils/converter/jwtToken');
 const createLogger = require('../../utils/logger');
+const {badRequest, success, internalServerError} = require("../../utils/template/templateResponeApi");
 const logger = createLogger(__filename);
 
 
@@ -307,6 +309,58 @@ describe('unit test function in userService', ()=>{
 
             expect(result).toEqual({ status: 500, message: 'Internal Server Error' });
             expect(userRepository.findById).toHaveBeenCalledWith({ id: mockUser.id });
+        });
+    });
+
+    describe('unit test verifyUser function in userService', () => {
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        const mockUser = {
+            id: 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b',
+            name: 'usertest',
+            email: 'test@test.com',
+            phone_number: '628123456789',
+            is_verified: false,
+            created_at: new Date(),
+            updated_at: new Date(),
+            deleted_at: null
+        };
+
+        it('should return bad request if user is not found', async () => {
+            userRepository.findById.mockResolvedValue(null);
+            badRequest.mockReturnValue({ status: 400, message: 'User not found' });
+
+            const result = await verifyUser({ isVerified: true, userId: 'nonexistent-id' });
+
+            expect(result).toEqual({ status: 400, message: 'User not found' });
+            expect(userRepository.findById).toHaveBeenCalledWith({ id: 'nonexistent-id' });
+        });
+
+        it('should update user verification status successfully', async () => {
+            userRepository.findById.mockResolvedValue(mockUser);
+            userRepository.update.mockResolvedValue([1]);
+            success.mockReturnValue({ status: 200, message: 'User verify updated successfully', data: { id: mockUser.id } });
+
+            const result = await verifyUser({ isVerified: true, userId: mockUser.id });
+
+            expect(result).toEqual({ status: 200, message: 'User verify updated successfully', data: { id: mockUser.id } });
+            expect(userRepository.findById).toHaveBeenCalledWith({ id: mockUser.id });
+            expect(userRepository.update).toHaveBeenCalledWith({ id: mockUser.id, params: { is_verified: true } });
+        });
+
+        it('should handle error during user verification update', async () => {
+            const errorMessage = 'Database query error';
+            userRepository.findById.mockResolvedValue(mockUser);
+            userRepository.update.mockRejectedValue(new Error(errorMessage));
+            internalServerError.mockReturnValue({ status: 500, message: 'Internal Server Error' });
+
+            const result = await verifyUser({ isVerified: true, userId: mockUser.id });
+
+            expect(result).toEqual({ status: 500, message: 'Internal Server Error' });
+            expect(userRepository.findById).toHaveBeenCalledWith({ id: mockUser.id });
+            expect(userRepository.update).toHaveBeenCalledWith({ id: mockUser.id, params: { is_verified: true } });
         });
     });
 })
