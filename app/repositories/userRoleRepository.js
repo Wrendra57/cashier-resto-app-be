@@ -69,6 +69,34 @@ const findByUserId = async ({userId, transaction=null}) => {
     }
 }
 
+const deleteByUserIdAndRole = async ({userId,role, transaction=null}) => {
+    try {
+        const options = {}
+        if (transaction) {
+            options.transaction = transaction;
+            options.lock = transaction.LOCK.UPDATE;
+        }
+        const query = `DELETE FROM user_role WHERE user_id = :userId AND role = :role;`
+        await sequelize.query(query,{
+            replacements: { userId,role },
+            type: sequelize.QueryTypes.SELECT,
+            ...options
+        })
+        logger.info({
+            message: "User Role deleted successfully from the database",
+            userId,
+            role
+        });
+        return userId
+    } catch (error) {
+        logger.error({
+            message: 'Database query error',
+            error: error.message,
+            userId
+        });
+        throw new Error("Database query error: " + error.message);
+    }
+}
 module.exports = {
-    insert,findByUserId
+    insert,findByUserId,deleteByUserIdAndRole
 }

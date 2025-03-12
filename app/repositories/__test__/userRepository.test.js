@@ -1,4 +1,4 @@
-const { insert, findByEmail,findByPhoneNumber,findById, findByEmailOrPhoneNumber } = require("../userRepository");
+const { insert, findByEmail,findByPhoneNumber,findById, findByEmailOrPhoneNumber,update } = require("../userRepository");
 const { sequelize } = require("../../models/index.js");
 const { User } = require("../../models");
 const { Error } = require("sequelize");
@@ -480,6 +480,78 @@ describe('unit test in user repositories', () => {
                 {
                     replacements: { id },
                     type: sequelize.QueryTypes.SELECT
+                }
+            );
+            expect(sequelize.query).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe('unit test update function in user repositories', () => {
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        const transaction = {
+            LOCK: {
+                UPDATE: 'UPDATE'
+            }
+        };
+
+        it('should update user successfully', async () => {
+            sequelize.query.mockResolvedValue([1]); // Mocking the number of affected rows
+
+            const id = 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b';
+            const params = { name: 'updatedName', email: 'updated@test.com' };
+
+            const result = await update({ id, params, transaction });
+
+            expect(result).toEqual([1]);
+            expect(sequelize.query).toBeCalledWith(
+                'UPDATE users SET name = :name, email = :email WHERE id = :id',
+                {
+                    replacements: { id, ...params },
+                    type: sequelize.QueryTypes.UPDATE,
+                    transaction,
+                    lock: transaction.LOCK.UPDATE
+                }
+            );
+            expect(sequelize.query).toHaveBeenCalledTimes(1);
+        });
+
+        it('should handle transaction being null', async () => {
+            sequelize.query.mockResolvedValue([1]); // Mocking the number of affected rows
+
+            const id = 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b';
+            const params = { name: 'updatedName', email: 'updated@test.com' };
+
+            const result = await update({ id, params });
+
+            expect(result).toEqual([1]);
+            expect(sequelize.query).toBeCalledWith(
+                'UPDATE users SET name = :name, email = :email WHERE id = :id',
+                {
+                    replacements: { id, ...params },
+                    type: sequelize.QueryTypes.UPDATE
+                }
+            );
+            expect(sequelize.query).toHaveBeenCalledTimes(1);
+        });
+
+        it('should throw error when database query fails', async () => {
+            const errorMessage = 'Database query error';
+            sequelize.query.mockRejectedValue(new Error(errorMessage));
+
+            const id = 'b0f2db86-88b9-43a7-bc65-0a0e2be8a26b';
+            const params = { name: 'updatedName', email: 'updated@test.com' };
+
+            await expect(update({ id, params, transaction })).rejects.toThrow(`Database query error: ${errorMessage}`);
+            expect(sequelize.query).toBeCalledWith(
+                'UPDATE users SET name = :name, email = :email WHERE id = :id',
+                {
+                    replacements: { id, ...params },
+                    type: sequelize.QueryTypes.UPDATE,
+                    transaction,
+                    lock: transaction.LOCK.UPDATE
                 }
             );
             expect(sequelize.query).toHaveBeenCalledTimes(1);
