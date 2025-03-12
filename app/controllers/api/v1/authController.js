@@ -3,7 +3,6 @@ const createLogger = require("../../../utils/logger")
 const logger = createLogger(__filename)
 const template = require('../../../utils/template/templateResponeApi')
 const {convertPhoneNumber} = require("../../../utils/converter/converterPhoneNumber");
-const {regexpToText} = require("nodemon/lib/utils");
 const {toTemplateResponseApi} = require("../../../utils/template/templateResponeApi");
 const registerUser = async (req, res) => {
         const { name, email, password } = req.body;

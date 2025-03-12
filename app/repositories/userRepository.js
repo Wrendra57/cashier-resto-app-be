@@ -174,4 +174,36 @@ const findByEmailOrPhoneNumber = async ({params,transaction=null})=>{
         throw new Error("Database query error: " + error.message);
     }
 }
-module.exports={insert,findByEmail,findByPhoneNumber,findByEmailOrPhoneNumber,findById}
+
+const update = async ({id, params,transaction=null})=>{
+    try {
+        const options = {};
+        if (transaction) {
+            options.transaction = transaction;
+            options.lock = transaction.LOCK.UPDATE;
+        }
+        const setClause = Object.keys(params)
+            .map((key, index) => `${key} = :${key}`)
+            .join(', ');
+
+        const query = `UPDATE users SET ${setClause} WHERE id = :id`;
+
+        const user = await sequelize.query(query, {
+            replacements: { id, ...params },
+            type: sequelize.QueryTypes.UPDATE,
+            ...options
+        });
+        logger.info({
+            message: "User updated successfully",
+            userId: id
+        });
+        return user;
+    } catch (error) {
+        logger.error({
+            message: 'Database query error',
+            error: error.message,
+        });
+        throw new Error("Database query error: " + error.message);
+    }
+}
+module.exports={insert,findByEmail,findByPhoneNumber,findByEmailOrPhoneNumber,findById,update}

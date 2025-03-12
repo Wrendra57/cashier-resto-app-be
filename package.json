@@ -1,5 +1,5 @@
 {
-  "name": "binar-sme-chapter-06-topic-01-design-pattern-service-repository",
+  "name": "be-cashier-resto",
   "version": "1.0.0",
   "main": "app/index.js",
   "license": "MIT",
@@ -26,7 +26,7 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "npm": "^11.1.0",
-    "pg": "^8.7.3",
+    "pg": "^8.13.3",
     "sequelize": "^6.18.0",
     "sequelize-cli": "^6.4.1",
     "supertest": "^7.0.0",

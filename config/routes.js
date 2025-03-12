@@ -4,21 +4,11 @@ const swaggerUi = require('swagger-ui-express')
 const swaggerJsdoc = require('swagger-jsdoc')
 const swaggerOptions = require('../app/swagger/swaggerOptions')
 const {validation} = require("../app/middleware/validations");
-const {createUserValidation, loginUserValidation, findByUserIdValidation} = require("../app/middleware/validations/userValidation");
+const {createUserValidation, loginUserValidation, findByUserIdValidation,verifyUserValidation, changeRolesValidation} = require("../app/middleware/validations/userValidation");
 const {loginUser} = require("../app/services/authService");
 const {parseToken, checkRole} = require("../app/middleware/authorization");
 const swaggerSpec = swaggerJsdoc(swaggerOptions)
 const apiRouter = express.Router();
-
-
-// apiRouter.get("/api/v1/posts", controllers.api.v1.postController.list);
-// apiRouter.post("/api/v1/posts", controllers.api.v1.postController.create);
-// apiRouter.put("/api/v1/posts/:id", controllers.api.v1.postController.update);
-// apiRouter.get("/api/v1/posts/:id", controllers.api.v1.postController.show);
-// apiRouter.delete(
-//   "/api/v1/posts/:id",
-//   controllers.api.v1.postController.destroy
-// );
 
 apiRouter.get("/", (req, res)=>{
   res.status(200).json({Code: 200, message: "Welcome to the API Goto the Documentation API http://localhost:8080/api-docs", data: null});
@@ -36,6 +26,16 @@ apiRouter.get("/api/v1/users/:id",
     parseToken,
     checkRole(["superadmin"]),
     controllers.api.v1.userController.findByUserId);
+apiRouter.patch("/api/v1/users/verify/:id",
+    validation(verifyUserValidation),
+    parseToken,
+    checkRole(["superadmin"]),
+    controllers.api.v1.userController.verifyUser);
+apiRouter.patch("/api/v1/users/roles/update/:id",
+    validation(changeRolesValidation),
+    parseToken,
+    checkRole(["superadmin"]),
+    controllers.api.v1.userController.changeRoles);
 
 
 
