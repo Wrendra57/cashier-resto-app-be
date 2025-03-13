@@ -1,4 +1,4 @@
-const { toTemplateResponseApi, success, created, internalServerError, badRequest } = require('../templateResponeApi');
+const { toTemplateResponseApi, success, created, internalServerError, badRequest,forbiddenError } = require('../templateResponeApi');
 
 describe('templateResponeApi utility functions', () => {
     describe('toTemplateResponseApi', () => {
@@ -64,6 +64,19 @@ describe('templateResponeApi utility functions', () => {
             expect(result).toEqual({
                 code: 400,
                 status: 'Failed',
+                message: message,
+                data: null
+            });
+        });
+    });
+
+    describe('forbidden', () => {
+        it('should return the correct forbidden response', () => {
+            const message = 'Invalid request';
+            const result = forbiddenError(message);
+            expect(result).toEqual({
+                code: 403,
+                status: 'Forbidden',
                 message: message,
                 data: null
             });
