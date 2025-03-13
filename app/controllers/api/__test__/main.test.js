@@ -18,4 +18,27 @@ describe('API Main Controller', () => {
             });
         });
     });
+
+    describe('onError', () => {
+        it('should return 500 status and error message', () => {
+            const err = new Error('Test error');
+            const req = {};
+            const res = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn(),
+            };
+            const next = jest.fn();
+
+            onError(err, req, res, next);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({
+                status: "ERROR",
+                error: {
+                    name: err.name,
+                    message: err.message,
+                },
+            });
+        });
+    });
 });
