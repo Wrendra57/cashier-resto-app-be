@@ -18,7 +18,6 @@ module.exports = {
       {id:'fb728f79-ce38-4857-9595-7abb152603cf',name:'admin',email:'admin_change_role@test.com',password:password,phone_number:"628324524011",is_verified:true},
       {id:'4fc3a798-0818-41a0-80c9-3fb902021375',name:'user',email:'user_change_role@test.com',password:password,phone_number:"628324524012",is_verified:true},
 
-
     ])
   },
 
