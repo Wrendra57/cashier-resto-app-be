@@ -23,12 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Tenants.init({
-    id: {type:DataTypes.UUID, primaryKey:true},
+    id: {type:DataTypes.UUID, primaryKey:true, defaultValue:DataTypes.UUIDV4},
     name: DataTypes.STRING,
     address: DataTypes.TEXT,
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE,
-    deleted_at: {type:DataTypes.DATE, allowNull:false},
+    deleted_at: {type:DataTypes.DATE, allowNull:true},
   }, {
     sequelize,
     modelName: 'Tenants',
