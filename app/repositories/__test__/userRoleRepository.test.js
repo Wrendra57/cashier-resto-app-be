@@ -19,8 +19,6 @@ jest.mock('../../models/index.js', () => {
     };
 });
 describe('unit test function in userRoleRepository', () => {
-
-
     describe('unit test insert function in userRoleRepository', () => {
     afterEach(() => {
         jest.clearAllMocks();

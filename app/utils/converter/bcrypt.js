@@ -7,13 +7,10 @@ const encodedPassword = async (password) => {
     try {
         return await bcrypt.hash(password, parseInt(process.env.SALT));
     } catch (err) {
-        console.log(err.message);
         logger.error({
             message: 'Database query error',
             error: err.message,
         });
-
-        console.log("message");
         throw new Error("Error hashing password: " + err.message);
     }
 };

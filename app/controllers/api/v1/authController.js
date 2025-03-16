@@ -1,6 +1,4 @@
 const userService=require("../../../services/authService")
-const createLogger = require("../../../utils/logger")
-const logger = createLogger(__filename)
 const template = require('../../../utils/template/templateResponeApi')
 const {convertPhoneNumber} = require("../../../utils/converter/converterPhoneNumber");
 const {toTemplateResponseApi} = require("../../../utils/template/templateResponeApi");
@@ -25,11 +23,8 @@ const login = async (req, res) => {
               return res.status(400).json(template.badRequest('Phone number is not valid'));
           }
       }
-
         const user = await userService.loginUser({ emailOrPhoneNumber, password });
-
         return res.status(user.code).json(template.toTemplateResponseApi(user));
-
 };
 
 const authMe = async (req, res) => {
