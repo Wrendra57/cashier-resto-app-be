@@ -32,8 +32,7 @@ const list = async ({limit, offset, transaction=null}) => {
             options.transaction = transaction;
             options.lock = transaction.LOCK.UPDATE
         }
-        const query = `SELECT * FROM tenants WHERE deleted_at IS NULL ORDER BY name ASC LIMIT :limit OFFSET :offset;
-        `;
+        const query = `SELECT * FROM tenants WHERE deleted_at IS NULL ORDER BY name ASC LIMIT :limit OFFSET :offset;`;
 
         let tenants = await sequelize.query(query,{
             replacements: {limit, offset},
