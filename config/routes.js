@@ -7,7 +7,7 @@ const {validation} = require("../app/middleware/validations");
 const {createUserValidation, loginUserValidation, findByUserIdValidation,verifyUserValidation, changeRolesValidation} = require("../app/middleware/validations/userValidation");
 const {loginUser} = require("../app/services/authService");
 const {parseToken, checkRole} = require("../app/middleware/authorization");
-const {createTenantValidation} = require("../app/middleware/validations/tenantValidation");
+const {createTenantValidation, listTenantsValidation} = require("../app/middleware/validations/tenantValidation");
 const swaggerSpec = swaggerJsdoc(swaggerOptions)
 const apiRouter = express.Router();
 
@@ -44,6 +44,8 @@ apiRouter.post("/api/v1/tenants",
     checkRole(["superadmin"]),
     validation(createTenantValidation),
     controllers.api.v1.tenantController.createTenant);
+
+apiRouter.get("/api/v1/tenants",validation(listTenantsValidation), controllers.api.v1.tenantController.listTenants);
 
 apiRouter.get("/api/v1/errors", () => {
   throw new Error(

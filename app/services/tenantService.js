@@ -25,4 +25,21 @@ const createTenant = async ({nameTenant,addressTenant})=>{
     }
 }
 
-module.exports = {createTenant}
+const listTenants = async ({limit,page})=>{
+    try {
+        const tenants = await tenantRepository.list({limit:limit,offset:page-1});
+        logger.info({
+            message: "Tenants list retrieved successfully",
+            tenants: tenants,
+        });
+        return template.success(tenants, "Tenants list retrieved successfully");
+    } catch (e) {
+        logger.error({
+            message: 'Error creating tenant',
+            error: e.message,
+        });
+        return template.internalServerError();
+    }
+}
+
+module.exports = {createTenant,listTenants}

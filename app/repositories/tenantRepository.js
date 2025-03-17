@@ -1,5 +1,5 @@
-const {sequelize} = require("../models/index.js");
 const {Tenants} = require("../models")
+const {sequelize} = require("../models/index.js");
 const createLogger = require("../utils/logger")
 const logger = createLogger(__filename)
 
@@ -24,4 +24,32 @@ const insert = async ({params, transaction=null}) => {
         throw new Error("Database query error: " + e.message);
     }
 }
-module.exports = {insert}
+
+const list = async ({limit, offset, transaction=null}) => {
+    try{
+        const options = {}
+        if (transaction){
+            options.transaction = transaction;
+            options.lock = transaction.LOCK.UPDATE
+        }
+        const query = `SELECT * FROM tenants WHERE deleted_at IS NULL ORDER BY name ASC LIMIT :limit OFFSET :offset;
+        `;
+
+        let tenants = await sequelize.query(query,{
+            replacements: {limit, offset},
+            type: sequelize.QueryTypes.SELECT,
+            ...options})
+        logger.info({
+            message: "Tenants list retrieved successfully from the database",
+            tenants: tenants,
+        })
+        return tenants;
+    } catch (e) {
+        logger.error({
+            message: 'Database query error in list() tenantRepository',
+            error: e.message,
+        });
+        throw new Error("Database query error: " + e.message);
+    }
+}
+module.exports = {insert, list}

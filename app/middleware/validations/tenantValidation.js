@@ -14,5 +14,21 @@ const createTenantValidation = yup.object({
             .max(255, 'Address must be maximum 255 characters')
     })
 })
+const listTenantsValidation = yup.object({
+    query: yup.object({
+        limit: yup
+            .number()
+            .typeError("Limit must be a number")
+            .integer("Limit must be a number")
+            .min(1, "Limit must be at least 1")
+            .max(100, "Limit must be maximum 100"),
+        page: yup
+            .number()
+            .typeError("Page must be a number")
+            .integer("Page must be a number")
+            .min(1, "Page must be at least 1"),
+    })
+});
 
-module.exports = {createTenantValidation}
+
+module.exports = {createTenantValidation,listTenantsValidation}
