@@ -27,7 +27,7 @@ const createTenant = async ({nameTenant,addressTenant})=>{
 
 const listTenants = async ({limit,page})=>{
     try {
-        const tenants = await tenantRepository.list({limit:limit,offset:page-1});
+        const tenants = await tenantRepository.list({limit:limit,offset:(page-1)*limit});
         logger.info({
             message: "Tenants list retrieved successfully",
             tenants: tenants,
