@@ -35,7 +35,7 @@ const listTenants = async ({limit,page})=>{
         return template.success(tenants, "Tenants list retrieved successfully");
     } catch (e) {
         logger.error({
-            message: 'Error creating tenant',
+            message: 'Error get list tenant',
             error: e.message,
         });
         return template.internalServerError();

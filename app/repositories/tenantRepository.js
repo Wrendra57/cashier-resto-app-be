@@ -39,8 +39,7 @@ const list = async ({limit, offset, transaction=null}) => {
             type: sequelize.QueryTypes.SELECT,
             ...options})
         logger.info({
-            message: "Tenants list retrieved successfully from the database",
-            tenants: tenants,
+            message: "Tenants list retrieved successfully from the database"
         })
         return tenants;
     } catch (e) {

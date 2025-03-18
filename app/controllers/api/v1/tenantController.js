@@ -11,7 +11,7 @@ const createTenant = async (req, res) => {
 const listTenants = async (req, res) => {
     let limit = Number(req.query.limit) || 10;
     let page = Number(req.query.page) || 1;
-    console.log(`limit == ${limit}, page ${page}`);
+
     const tenants = await tenantService.listTenants({ limit, page });
 
     return res.status(tenants.code).json(toTemplateResponseApi(tenants));
